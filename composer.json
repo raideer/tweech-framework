@@ -1,0 +1,29 @@
+{
+    "name": "raideer/tweech",
+    "description": "PHP Twitch IRC client",
+    "authors": [
+        {
+            "name": "Raideer",
+            "email": "raideer@5v5.lv"
+        }
+    ],
+    "require": {
+      "symfony/config": "^2.7",
+        "symfony/event-dispatcher": "^2.7",
+        "monolog/monolog": "^1.17"
+    },
+    "require-dev": {
+      "phpunit/phpunit": "4.8.11",
+      "phake/phake": "2.*"
+    },
+    "autoload": {
+      "psr-4": {
+        "Raideer\\Tweech\\": "src"
+      }
+    },
+    "autoload-dev": {
+      "psr-4": {
+        "Raideer\\Tweech\\Tests\\": "tests"
+      }
+    }
+}
