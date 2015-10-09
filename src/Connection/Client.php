@@ -83,7 +83,7 @@ class Client extends EventEmitter{
     while(1){
       while($data = $this->read()){
         flush();
-        $this->dispatch("tweech.irc.message", new IrcMessageEvent($data));
+        $this->dispatch("irc.message", new IrcMessageEvent($data));
       }
 
       if (!feof($this->getSocket())) {
