@@ -78,19 +78,8 @@ class Client extends EventEmitter{
 
     $this->dispatch("tweech.authenticated", new Event());
 
-    stream_set_timeout($this->getSocket(), 1);
-
-    while(1){
-      while($data = $this->read()){
-        flush();
-        $this->dispatch("irc.message", new IrcMessageEvent($data));
-      }
-
-      if (!feof($this->getSocket())) {
-        continue;
-      }
-      sleep(1);
-    }
+    $loop = new StreamReader($this);
+    $loop->run();
   }
 
   protected function createSocket($server, $port){
@@ -121,9 +110,5 @@ class Client extends EventEmitter{
 
     return $this->logger;
   }
-  //
-  // public function setLogger(LoggerInterface $logger){
-  //   $this->logger = $logger;
-  // }
 
 }
