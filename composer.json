@@ -1,6 +1,6 @@
 {
-    "name": "raideer/tweech",
-    "description": "PHP Twitch IRC client",
+    "name": "raideer/tweech-framework",
+    "description": "Twitch.tv bot framework",
     "authors": [
         {
             "name": "Raideer",
