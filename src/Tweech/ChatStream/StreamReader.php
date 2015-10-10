@@ -4,7 +4,6 @@ use Raideer\Tweech\Util\Parser;
 
 use Raideer\Tweech\Event\EventEmitter;
 use Raideer\Tweech\Event\IrcMessageEvent;
-use Raideer\Tweech\Connection\Client;
 
 class StreamReader{
   /**
@@ -25,7 +24,7 @@ class StreamReader{
    */
   protected $running;
 
-  public function __construct(Client $client){
+  public function __construct(\Raideer\Tweech\Connection\Client $client){
     $this->client = $client;
     $this->parser = new Parser();
 
@@ -53,6 +52,6 @@ class StreamReader{
     if(!$data) return;
 
     $this->client->dispatch("irc.message", new IrcMessageEvent($data, $this->client));
-    $this->client->addSubscriber(new StreamReader());
+    // $this->client->addSubscriber(new MessageReader());
   }
 }

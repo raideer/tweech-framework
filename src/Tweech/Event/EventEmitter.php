@@ -14,6 +14,10 @@ class EventEmitter{
     return $this->dispatcher;
   }
 
+  public function addSubscriber($subscriber){
+    $this->getDispatcher()->addSubscriber($subscriber);
+  }
+
   public function dispatch($name, $event){
     $this->getDispatcher()->dispatch($name, $event);
   }
