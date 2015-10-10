@@ -4,6 +4,7 @@ use Raideer\Tweech\Util\Parser;
 
 use Raideer\Tweech\Event\EventEmitter;
 use Raideer\Tweech\Event\IrcMessageEvent;
+use Raideer\Tweech\Connection\Client;
 
 class StreamReader{
   /**
