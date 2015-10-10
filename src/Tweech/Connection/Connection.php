@@ -9,12 +9,10 @@ class Connection implements ConnectionInterface{
   protected $port;
   protected $password;
   protected $nickname;
-  protected $channel;
 
-  public function __construct($nickname, $password, $channel, $hostname = "irc.twitch.tv", $port = 6667){
+  public function __construct($nickname, $password, $hostname = "irc.twitch.tv", $port = 6667){
     $this->setNickname($nickname);
     $this->setPassword($password);
-    $this->setChannel($channel);
     $this->setHostname($hostname);
     $this->setPort($port);
   }
@@ -25,14 +23,6 @@ class Connection implements ConnectionInterface{
 
   public function getHostname(){
     return $this->hostname;
-  }
-
-  public function setChannel($channel){
-    $this->channel = $channel;
-  }
-
-  public function getChannel(){
-    return $this->channel;
   }
 
   public function setPort($port){

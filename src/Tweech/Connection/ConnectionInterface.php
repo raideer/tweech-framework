@@ -6,9 +6,6 @@ interface ConnectionInterface{
   public function setHostname($hostname);
   public function getHostname();
 
-  public function setChannel($hostname);
-  public function getChannel();
-
   public function setPort($port);
   public function getPort();
 

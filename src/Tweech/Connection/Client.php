@@ -1,6 +1,6 @@
 <?php
 namespace Raideer\Tweech\Connection;
-use Raideer\Tweech\Exception;
+use Raideer\Tweech\Exception\SocketConnectionException;
 
 use Raideer\Tweech\Event\EventEmitter;
 use Raideer\Tweech\Event\Event;
@@ -76,7 +76,6 @@ class Client extends EventEmitter{
   public function run(){
     $this->command("PASS", $this->connection->getPassword());
     $this->command("NICK", $this->connection->getNickname());
-    $this->command("JOIN", $this->connection->getChannel());
 
     $this->dispatch("tweech.authenticated", new Event());
 

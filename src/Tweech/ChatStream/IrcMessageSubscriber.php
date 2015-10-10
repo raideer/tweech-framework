@@ -1,10 +1,9 @@
 <?php
 namespace Raideer\Tweech\ChatStream;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Raideer\Tweech\Event\IrcMessageEvent;
+use Raideer\Tweech\Event\EventSubscriber;
 
-class MessageReader implements EventSubscriberInterface{
+class IrcMessageSubscriber extends EventSubscriber{
 
   public static function getSubscribedEvents(){
 
