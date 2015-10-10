@@ -6,6 +6,8 @@ use Raideer\Tweech\Event\EventEmitter;
 use Raideer\Tweech\Event\Event;
 use Raideer\Tweech\Event\IrcMessageEvent;
 
+use Raideer\Tweech\ChatStream\StreamReader;
+
 use Psr\Log\LoggerInterface;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;

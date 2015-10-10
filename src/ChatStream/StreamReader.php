@@ -1,5 +1,5 @@
 <?php
-namespace Raideer\Tweech\Connection;
+namespace Raideer\Tweech\ChatStream;
 use Raideer\Tweech\Util\Parser;
 
 use Raideer\Tweech\Event\EventEmitter;
