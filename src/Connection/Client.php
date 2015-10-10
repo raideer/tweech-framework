@@ -80,8 +80,8 @@ class Client extends EventEmitter{
 
     $this->dispatch("tweech.authenticated", new Event());
 
-    $loop = new StreamReader($this);
-    $loop->run();
+    $chatreader = new StreamReader($this);
+    $chatreader->run();
   }
 
   protected function createSocket($server, $port){
