@@ -160,3 +160,6 @@
 [2015-10-10 13:42:53] Client.DEBUG: Sending command: PASS oauth:rkj8z4h0ltdoj3k7agv5s4zjsp2fam  [] []
 [2015-10-10 13:42:53] Client.DEBUG: Sending command: NICK raideeeeer  [] []
 [2015-10-10 13:42:53] Client.DEBUG: Sending command: JOIN #lirik  [] []
+[2015-10-10 15:57:22] Client.DEBUG: Sending command: PASS oauth:rkj8z4h0ltdoj3k7agv5s4zjsp2fam  [] []
+[2015-10-10 15:57:22] Client.DEBUG: Sending command: NICK raideeeeer  [] []
+[2015-10-10 15:57:22] Client.DEBUG: Sending command: JOIN #lirik  [] []
