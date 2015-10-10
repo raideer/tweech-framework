@@ -59,7 +59,7 @@ class Client extends EventEmitter{
       return;
     }
 
-    $this->getLogger()->addDebug("Sending command: " . $command);
+    // $this->getLogger()->addDebug("Sending command: " . $command);
     fputs($socket, $command);
   }
 
