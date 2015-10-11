@@ -4,7 +4,6 @@ use Raideer\Tweech\Config\Config;
 use Raideer\Tweech\Config\ConfigLoader;
 use Raideer\Tweech\Connection\Connection;
 use Raideer\Tweech\Connection\Client;
-use Raideer\Tweech\Event\SubscriberLoader;
 
 
 class Tweech extends Container{
@@ -90,7 +89,7 @@ class Tweech extends Container{
       $path = "$basePath/$subscriber.php";
       if(!file_exists($path)) continue;
 
-      require $path;
+      require_once $path;
       $class = "$subscriber";
       $subscriber = new $class();
 
