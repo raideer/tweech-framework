@@ -1,9 +1,8 @@
 <?php
-namespace Raideer\Tweech\ChatStream;
+use Raideer\Tweech\Event;
+use Raideer\Tweech\Util\IrcEvents;
 
-use Raideer\Tweech\Event\EventSubscriber;
-
-class IrcMessageSubscriber extends EventSubscriber{
+class IrcMessageSubscriber extends Event\EventSubscriber{
 
   public static function getSubscribedEvents(){
 
@@ -15,10 +14,15 @@ class IrcMessageSubscriber extends EventSubscriber{
 
   }
 
-  public function onMessageReceived(IrcMessageEvent $event){
+  public function onMessageReceived(Event\IrcMessageEvent $event){
     $message = $event->getMessage();
+    $client = $event->getClient();
 
-    print_r($message);
+    if($name = IrcEvents::getName($message['command'])){
+
+      $client->dispatch("irc.message.$name", new Event\IrcMessageEvent($message, $client));
+    }
+
   }
 
 }

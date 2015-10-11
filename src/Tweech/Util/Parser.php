@@ -51,7 +51,11 @@ class Parser{
     $this->messageRegex = "/^$compiled$/U";
 
     $this->paramsRegex = array(
-      'PRIVMSG' => "/^(?P<channel>#$username)[$space]?:(?P<message>$trailing)$/s"
+      'PRIVMSG' => "/^(?P<channel>#$username)[$space]?:(?P<message>$trailing)$/s",
+      '372' => "/^(?P<username>$username)[$space]?:(?P<motd>$trailing)$/s",
+      '001' => "/^(?P<username>$username)[$space]?:(?P<welcome>$trailing)$/s",
+      '002' => "/^(?P<username>$username)[$space]?:(?P<host>$trailing)$/s",
+      '033' => "/^(?P<username>$username)[$space]?:(?P<created>$trailing)$/s"
     );
   }
 
@@ -81,6 +85,7 @@ class Parser{
     $command = strtoupper($parsed['command']);
     if(!array_key_exists($command, $this->paramsRegex)) return $parsed;
 
+
     if(!preg_match($this->paramsRegex[$command], $parsed['params'], $params)) return $parsed;
 
     $params = $this->removeIntegerKeys($params);
@@ -91,7 +96,7 @@ class Parser{
 
   public function parse($message){
     if(strpos($message, "\r\n") === false){
-      // return null;
+      return null;
     }
 
     if(!preg_match($this->messageRegex, $message, $parsed)){

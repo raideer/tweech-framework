@@ -29,11 +29,11 @@ class Tweech extends Container{
      */
     $this->addToInstance('config', new Config($configLoader));
 
-    $this->loadCoreSubscribers();
-    $this->loadEventSubscribers();
-
     $this->createConnection();
     $this->createClient();
+
+    $this->loadCoreSubscribers();
+    $this->loadEventSubscribers();
 
     $this->boot();
     $this->runClient();
@@ -90,12 +90,11 @@ class Tweech extends Container{
       $path = "$basePath/$subscriber.php";
       if(!file_exists($path)) continue;
 
-      // require $path;
-      //
-      // $class = "Raideer\\Tweech\\ChatStream\\$subscriber";
-      //
-      // $subscriber = $class();
-      // print_r($subscriber::getSubscribedEvents());
+      require $path;
+      $class = "$subscriber";
+      $subscriber = new $class();
+
+      $this['client']->addSubscriber($subscriber);
     }
   }
 
