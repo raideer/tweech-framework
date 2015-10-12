@@ -76,6 +76,23 @@ if ( ! function_exists('value'))
 	}
 }
 
+if ( ! function_exists('fire_callbacks'))
+{
+	/**
+	 * Return the default value of the given value.
+	 *
+	 * @param  mixed  $value
+	 * @return mixed
+	 */
+	function fire_callbacks(array $list, $instance)
+	{
+		foreach ($list as $callback)
+		{
+			call_user_func($callback, $instance);
+		}
+	}
+}
+
 if ( ! function_exists('with'))
 {
 	/**
