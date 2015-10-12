@@ -13,19 +13,6 @@ class Parser{
      * http://tools.ietf.org/html/rfc1459#section-2.3.1
      */
 
-    /**
-     * Examples:
-     *
-     * PREFIX                                           COM   PARAMETERS
-     *
-     * :raideeeeer!raideeeeer@raideeeeer.tmi.twitch.tv  JOIN  #lirik
-     * :raideeeeer.tmi.twitch.tv                        353   raideeeeer = #lirik :raideeeeer
-     * :raideeeeer.tmi.twitch.tv                        366   raideeeeer #lirik :End of /NAMES list
-     * :tmi.twitch.tv                                   001   raideeeeer :Welcome, GLHF!
-     * :tmi.twitch.tv                                   375   raideeeeer :-
-     *
-     */
-
     $space = " ";
     $null = "\\x00";
     $crlf = "\r\n";
