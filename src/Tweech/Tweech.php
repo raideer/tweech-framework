@@ -1,7 +1,5 @@
 <?php
 namespace Raideer\Tweech;
-use Raideer\Tweech\Config\Config;
-use Raideer\Tweech\Config\ConfigLoader;
 use Raideer\Tweech\Connection\Connection;
 use Raideer\Tweech\Connection\Client;
 use Raideer\Tweech\Subscribers\SubscriberLoader;
@@ -18,17 +16,6 @@ class Tweech extends Container{
    * Run the application
    */
   public function run(){
-    /**
-     * Creates a new config loader and specifies the config directory
-     * @var ConfigLoader
-     */
-    $configLoader = new ConfigLoader($this['path.config']);
-
-    /**
-     * Attaching the Config class to the container
-     */
-    $this->addToInstance('config', new Config($configLoader));
-
     $this->createConnection();
     $this->createClient();
 
@@ -46,7 +33,7 @@ class Tweech extends Container{
     $this->booted = true;
   }
 
-  public function whenBooted($callback){
+  public function whenBooted(\Closure $callback){
 
     $this->bootCallbacks[] = $callback;
 
@@ -100,10 +87,10 @@ class Tweech extends Container{
      * Attaches the Connection instance to the container
      */
     $this->addToInstance('connection', new Connection(
-                        $config['connection.username'],
-                        $config['connection.oauth'],
-                        $config['connection.ircServer.hostname'],
-                        $config['connection.ircServer.port']
+                        $config['app.connection.username'],
+                        $config['app.connection.oauth'],
+                        $config['app.connection.ircServer.hostname'],
+                        $config['app.connection.ircServer.port']
                       ));
   }
 

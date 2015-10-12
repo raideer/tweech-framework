@@ -61,7 +61,7 @@ class Client extends EventEmitter{
     $this->loggedIn = true;
   }
 
-  public function whenLogged($callback){
+  public function whenLogged(\Closure $callback){
     $this->loggedInCallbacks[] = $callback;
 
     if($this->isLogged()) fire_callbacks($this->loggedInCallbacks, $this);
