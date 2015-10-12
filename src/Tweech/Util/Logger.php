@@ -11,10 +11,31 @@ class Logger {
 
   protected $monolog;
 
+  protected $levels = array(
+		'debug',
+		'info',
+		'notice',
+		'warning',
+		'error',
+		'critical',
+		'alert',
+		'emergency',
+	);
+
   public function __construct(MonologLogger $logger)
   {
       $this->monolog = $logger;
   }
+
+  protected function callMonolog($method, $parameters)
+	{
+		if (is_array($parameters[0]))
+		{
+			$parameters[0] = json_encode($parameters[0]);
+		}
+
+		return call_user_func_array(array($this->monolog, $method), $parameters);
+	}
 
   public function getLogger()
   {
@@ -27,7 +48,7 @@ class Logger {
 
       $this->monolog->pushHandler($handler = new StreamHandler($path, $level));
 
-      $handler->setFormater(new LineFormatter());
+      $handler->setFormatter(new LineFormatter());
   }
 
   public function logToDailyFiles($path, $keepFiles = 0, $defaultLevel = 'debug')
@@ -36,7 +57,7 @@ class Logger {
 
       $this->monolog->pushHandler($handler = new RotatingFileHandler($path, $keepFiles, $level));
 
-      $handler->setFormater(new LineFormatter());
+      $handler->setFormatter(new LineFormatter());
   }
 
   public function logToErrorFiles($path, $messageType = ErrorLogHandler::OPERATING_SYSTEM)
@@ -45,7 +66,7 @@ class Logger {
 
       $this->monolog->pushHandler($handler = new RotatingFileHandler($path, $level));
 
-      $handler->setFormater(new LineFormatter());
+      $handler->setFormatter(new LineFormatter());
   }
 
   protected function parseLevel($level)
@@ -80,5 +101,17 @@ class Logger {
 		}
   }
 
+  public function __call($method, $parameters)
+	{
+		if (in_array($method, $this->levels))
+		{
+
+			$method = 'add'.ucfirst($method);
+
+			return $this->callMonolog($method, $parameters);
+		}
+
+		throw new \BadMethodCallException("Method [$method] does not exist.");
+	}
 
 }
