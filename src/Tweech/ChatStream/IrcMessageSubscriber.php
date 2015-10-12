@@ -18,9 +18,14 @@ class IrcMessageSubscriber extends Event\EventSubscriber{
     $message = $event->getMessage();
     $client = $event->getClient();
 
+    if(!array_key_exists('command',$message)) return;
+
     if($name = IrcEvents::getName($message['command'])){
 
       $client->dispatch("irc.message.$name", new Event\IrcMessageEvent($message, $client));
+    }else if(!is_numeric($message['command'])){
+
+      $client->dispatch("irc.message." . $message['command'], new Event\IrcMessageEvent($message, $client));
     }
 
   }
