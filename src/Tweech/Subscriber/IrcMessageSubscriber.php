@@ -1,8 +1,8 @@
 <?php
-use Raideer\Tweech\Event;
+use Raideer\Tweech\Event\IrcMessageEvent;
 use Raideer\Tweech\Util\IrcEvents;
 
-class IrcMessageSubscriber extends Event\EventSubscriber{
+class IrcMessageSubscriber extends EventSubscriber{
 
   public static function getSubscribedEvents(){
 
@@ -14,7 +14,7 @@ class IrcMessageSubscriber extends Event\EventSubscriber{
 
   }
 
-  public function onMessageReceived(Event\IrcMessageEvent $event){
+  public function onMessageReceived(IrcMessageEvent $event){
     $message = $event->getMessage();
     $client = $event->getClient();
 
@@ -22,10 +22,10 @@ class IrcMessageSubscriber extends Event\EventSubscriber{
 
     if($name = IrcEvents::getName($message['command'])){
 
-      $client->dispatch("irc.message.$name", new Event\IrcMessageEvent($message, $client));
+      $client->dispatch("irc.message.$name", new IrcMessageEvent($message, $client));
     }else if(!is_numeric($message['command'])){
 
-      $client->dispatch("irc.message." . $message['command'], new Event\IrcMessageEvent($message, $client));
+      $client->dispatch("irc.message." . $message['command'], new IrcMessageEvent($message, $client));
     }
 
   }

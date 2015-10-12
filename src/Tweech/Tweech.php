@@ -4,6 +4,7 @@ use Raideer\Tweech\Config\Config;
 use Raideer\Tweech\Config\ConfigLoader;
 use Raideer\Tweech\Connection\Connection;
 use Raideer\Tweech\Connection\Client;
+use Raideer\Tweech\Subscriber\SubscriberLoader;
 
 
 class Tweech extends Container{
@@ -31,7 +32,6 @@ class Tweech extends Container{
     $this->createConnection();
     $this->createClient();
 
-    $this->loadCoreSubscribers();
     $this->loadEventSubscribers();
 
     $this->boot();
@@ -58,36 +58,19 @@ class Tweech extends Container{
   }
 
   protected function loadEventSubscribers(){
-    $subscribers =  $this['config']['subscribers'];
-
-    $basePath = $this['path.app'] . "/subscribers";
-
-    $this->loadSubscribers($subscribers, $basePath);
-  }
-
-  protected function loadCoreSubscribers(){
     $coreSubscribers = array(
       "IrcMessageSubscriber",
       "ChatMessageSubscriber"
     );
 
-    $basePath = __DIR__ . "/ChatStream";
+    $subscribers =  $this['config']['subscribers'];
 
-    $this->loadSubscribers($coreSubscribers, $basePath);
-  }
+    echo " c";
+    $loader = new SubscriberLoader();
+    $loader->add($coreSubscribers);
+    $loader->add($subscribers);
+    $loader->loadAll();
 
-  protected function loadSubscribers($list, $basePath){
-
-    foreach($list as $subscriber){
-      $path = "$basePath/$subscriber.php";
-      if(!file_exists($path)) continue;
-
-      require_once $path;
-      $class = "$subscriber";
-      $subscriber = new $class();
-
-      $this['client']->addSubscriber($subscriber);
-    }
   }
 
   /**
