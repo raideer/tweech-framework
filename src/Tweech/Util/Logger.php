@@ -60,15 +60,6 @@ class Logger {
       $handler->setFormatter(new LineFormatter());
   }
 
-  public function logToErrorFiles($path, $messageType = ErrorLogHandler::OPERATING_SYSTEM)
-  {
-      $level = $this->parseLevel($defaultLevel);
-
-      $this->monolog->pushHandler($handler = new RotatingFileHandler($path, $level));
-
-      $handler->setFormatter(new LineFormatter());
-  }
-
   protected function parseLevel($level)
   {
     switch ($level){
