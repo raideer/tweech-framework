@@ -41,23 +41,16 @@ class Tweech extends Container{
   protected function boot(){
     if($this->booted) return;
 
-    $this->fireCallbacks($this->bootCallbacks);
+    fire_callbacks($this->bootCallbacks, $this);
 
     $this->booted = true;
   }
 
-  public function waitBooted($callback){
+  public function whenBooted($callback){
 
     $this->bootCallbacks[] = $callback;
 
-    if($this->isBooted()) $this->fireCallbacks(array($callback));
-  }
-
-  protected function fireCallbacks(array $callbacks){
-    foreach ($callbacks as $callback)
-		{
-			call_user_func($callback, $this);
-		}
+    if($this->isBooted()) fire_callbacks(array($callback), $this);
   }
 
   public function isBooted(){
