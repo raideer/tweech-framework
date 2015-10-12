@@ -28,6 +28,9 @@ class Client extends EventEmitter{
 
   protected $logger;
 
+  protected $loggedIn = false;
+  protected $loggedInCallbacks;
+
 
   public function __construct(Connection $connection){
     $this->connection = $connection;
@@ -50,6 +53,25 @@ class Client extends EventEmitter{
     return $this->socket;
   }
 
+  protected function setLogIn(){
+    if($this->isLogged()) return;
+
+    fire_callbacks($this->loggedInCallbacks, $this);
+
+    $this->loggedIn = true;
+  }
+
+  public function whenLogged($callback){
+    $this->loggedInCallbacks[] = $callback;
+
+    if($this->isLogged()) fire_callbacks($this->loggedInCallbacks, $this);
+  }
+
+  public function isLogged(){
+    return $this->loggedIn;
+  }
+
+
   public function command($code, $value){
     $command = strtoupper($code) . " $value\n";
 
@@ -59,7 +81,6 @@ class Client extends EventEmitter{
       return;
     }
 
-    // $this->getLogger()->addDebug("Sending command: " . $command);
     fputs($socket, $command);
   }
 
@@ -77,6 +98,7 @@ class Client extends EventEmitter{
     $this->command("PASS", $this->connection->getPassword());
     $this->command("NICK", $this->connection->getNickname());
 
+    $this->setLogIn();
     $this->dispatch("tweech.authenticated", new Event());
 
     $chatreader = new StreamReader($this);
