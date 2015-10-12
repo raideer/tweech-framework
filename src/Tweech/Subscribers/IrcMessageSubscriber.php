@@ -1,6 +1,7 @@
 <?php
 use Raideer\Tweech\Event\IrcMessageEvent;
 use Raideer\Tweech\Util\IrcEvents;
+use Raideer\Tweech\Subscribers\EventSubscriber;
 
 class IrcMessageSubscriber extends EventSubscriber{
 

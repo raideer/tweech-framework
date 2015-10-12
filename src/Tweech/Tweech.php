@@ -4,7 +4,7 @@ use Raideer\Tweech\Config\Config;
 use Raideer\Tweech\Config\ConfigLoader;
 use Raideer\Tweech\Connection\Connection;
 use Raideer\Tweech\Connection\Client;
-use Raideer\Tweech\Subscriber\SubscriberLoader;
+use Raideer\Tweech\Subscribers\SubscriberLoader;
 
 
 class Tweech extends Container{
@@ -59,14 +59,17 @@ class Tweech extends Container{
 
   protected function loadEventSubscribers(){
     $coreSubscribers = array(
-      "IrcMessageSubscriber",
-      "ChatMessageSubscriber"
+      __DIR__."/Subscribers/IrcMessageSubscriber",
+      __DIR__."/Subscribers/ChatMessageSubscriber"
     );
 
     $subscribers =  $this['config']['subscribers'];
 
-    echo " c";
-    $loader = new SubscriberLoader();
+    foreach($subscribers as $i => $subscriber){
+      $subscribers[$i] = $this['path.app'] . "/subscribers/$subscriber";
+    }
+
+    $loader = new SubscriberLoader($this['client']);
     $loader->add($coreSubscribers);
     $loader->add($subscribers);
     $loader->loadAll();

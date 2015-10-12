@@ -1,4 +1,5 @@
 <?php
+use Raideer\Tweech\Subscribers\EventSubscriber;
 use Raideer\Tweech\Event\IrcMessageEvent;
 
 class ChatMessageSubscriber extends EventSubscriber{

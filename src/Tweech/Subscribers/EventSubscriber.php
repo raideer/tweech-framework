@@ -1,5 +1,5 @@
 <?php
-namespace Raideer\Tweech\Subscriber;
+namespace Raideer\Tweech\Subscribers;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class EventSubscriber implements EventSubscriberInterface{
