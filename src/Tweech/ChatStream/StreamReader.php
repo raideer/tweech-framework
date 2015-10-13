@@ -52,6 +52,5 @@ class StreamReader{
     if(!$data) return;
 
     $this->client->dispatch("irc.message", new IrcMessageEvent($data, $this->client));
-    // $this->client->addSubscriber(new MessageReader());
   }
 }
