@@ -117,21 +117,4 @@ class Client extends EventEmitter{
     return $socket;
   }
 
-  public function getLogger(){
-    if(!$this->logger){
-      $name = get_class($this);
-
-      if (preg_match('@\\\\([\w]+)$@', $name, $matches)) {
-          $name = $matches[1];
-      }
-
-      $logger = new Logger($name);
-      $logger->pushHandler(new StreamHandler(__DIR__."/../Logs/$name.log", Logger::DEBUG));
-
-      $this->logger = $logger;
-    }
-
-    return $this->logger;
-  }
-
 }
