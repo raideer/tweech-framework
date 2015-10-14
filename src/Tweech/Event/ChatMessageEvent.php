@@ -1,15 +1,35 @@
 <?php
 namespace Raideer\Tweech\Event;
+use Raideer\Tweech\Client\Client;
 
 class ChatMessageEvent extends Event{
 
-  protected $message;
+  protected $response;
+  protected $client;
 
-  public function __construct($message){
-    $this->message = $message;
+  public function __construct($response, Client $client)
+  {
+    $this->response = $response;
+    $this->client = $client;
   }
 
-  public function getMessage(){
-    return $this->message;
+  public function getResponse()
+  {
+    return $this->response;
+  }
+
+  public function getSender()
+  {
+    return $this->response['username'];
+  }
+
+  public function getMessage()
+  {
+    return $this->response['message'];
+  }
+
+  public function getClient()
+  {
+    return $this->client;
   }
 }
