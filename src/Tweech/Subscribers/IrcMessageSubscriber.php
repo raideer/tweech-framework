@@ -1,5 +1,6 @@
 <?php
 use Raideer\Tweech\Event\IrcMessageEvent;
+use Raideer\Tweech\Event\ChatMessageEvent;
 use Raideer\Tweech\Util\IrcEvents;
 use Raideer\Tweech\Subscribers\EventSubscriber;
 
@@ -15,18 +16,42 @@ class IrcMessageSubscriber extends EventSubscriber{
 
   }
 
-  public function onMessageReceived(IrcMessageEvent $event){
-    $message = $event->getMessage();
+  public function onMessageReceived(IrcMessageEvent $event)
+  {
+    $response = $event->getResponse();
     $client = $event->getClient();
 
-    if(!array_key_exists('command',$message)) return;
+    /**
+     * Check if the response contains a command
+     */
+    if(!array_key_exists('command',$response)) return;
 
-    if($name = IrcEvents::getName($message['command'])){
+    /**
+     * Check if the received command has an alias
+     * See: Raideer\Tweech\Util\IrcEvents
+     */
+    if($name = IrcEvents::getName($response['command']))
+    {
+      $client->dispatch("irc.message.$name", new IrcMessageEvent($response, $client));
+    }
+    else if(!is_numeric($response['command']))
+    {
+      $name = $response['command'];
 
-      $client->dispatch("irc.message.$name", new IrcMessageEvent($message, $client));
-    }else if(!is_numeric($message['command'])){
+      switch($name)
+      {
+        /**
+         * If we receive a ping then we want to pong it back
+         */
+        case "PING":
+          $client->command("PONG", $response['full']);
+          break;
+        case "PRIVMSG":
+          $client->dispatch('chat.message', new ChatMessageEvent($response, $client));
+        default:
+          $client->dispatch("irc.message.$name", new IrcMessageEvent($response, $client));
+      }
 
-      $client->dispatch("irc.message." . $message['command'], new IrcMessageEvent($message, $client));
     }
 
   }
