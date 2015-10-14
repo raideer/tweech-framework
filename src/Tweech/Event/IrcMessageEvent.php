@@ -1,7 +1,7 @@
 <?php
 namespace Raideer\Tweech\Event;
 
-use Raideer\Tweech\Connection\Client;
+use Raideer\Tweech\Client\Client;
 
 class IrcMessageEvent extends Event{
 

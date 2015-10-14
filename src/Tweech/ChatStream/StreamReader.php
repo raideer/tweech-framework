@@ -24,7 +24,7 @@ class StreamReader{
    */
   protected $running;
 
-  public function __construct(\Raideer\Tweech\Connection\Client $client){
+  public function __construct(\Raideer\Tweech\Client\Client $client){
     $this->client = $client;
     $this->parser = new Parser();
 
