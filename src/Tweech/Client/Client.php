@@ -23,6 +23,8 @@ class Client extends EventEmitter{
    */
   protected $socket;
 
+  protected $helper;
+
   protected $logger;
 
   protected $loggedIn = false;
@@ -31,6 +33,14 @@ class Client extends EventEmitter{
 
   public function __construct(Connection $connection){
     $this->connection = $connection;
+    $this->helper = new ClientHelper($this);
+  }
+
+  public function __call($name, $arguments){
+    if(method_exists($this->helper, $name))
+    {
+      call_user_func_array(array($this->helper, $name), $arguments);
+    }
   }
 
   /**
