@@ -1,20 +1,19 @@
 <?php
 namespace Raideer\Tweech\Event;
-
 use Raideer\Tweech\Client\Client;
 
 class IrcMessageEvent extends Event{
 
-  protected $message;
+  protected $response;
   protected $client;
 
-  public function __construct($message, Client $client){
-    $this->message = $message;
+  public function __construct($response, Client $client){
+    $this->response = $response;
     $this->client = $client;
   }
 
-  public function getMessage(){
-    return $this->message;
+  public function getResponse(){
+    return $this->response;
   }
 
   public function getClient(){
