@@ -1,22 +1,23 @@
 <?php
 use Raideer\Tweech\Subscribers\EventSubscriber;
-use Raideer\Tweech\Event\IrcMessageEvent;
+use Raideer\Tweech\Event\ChatMessageEvent;
 
 class ChatMessageSubscriber extends EventSubscriber{
 
-  public static function getSubscribedEvents(){
+  public static function getSubscribedEvents()
+  {
 
     return array(
-      'irc.message' => array(
+      'chat.message' => array(
         'onMessageReceived', 0
       )
     );
 
   }
 
-  public function onMessageReceived(IrcMessageEvent $event){
-    $message = $event->getMessage();
-
+  public function onMessageReceived(ChatMessageEvent $event)
+  {
+    
   }
 
 }

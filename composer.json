@@ -1,17 +1,19 @@
 {
     "name": "raideer/tweech-framework",
     "description": "Twitch.tv bot framework",
+    "keywords": ["framework", "tweech", "php"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Raideer",
             "email": "raideer@5v5.lv"
         }
     ],
-    "require":
-    {
-        "symfony/config": "^2.7",
-        "symfony/event-dispatcher": "^2.7",
-        "monolog/monolog": "^1.17"
+    "require": {
+      "php": ">=5.5.0",
+      "symfony/config": "^2.7",
+      "symfony/event-dispatcher": "^2.7",
+      "monolog/monolog": "^1.17"
     },
     "require-dev":
     {

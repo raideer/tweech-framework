@@ -75,10 +75,9 @@ class Parser{
 
     if(!preg_match($this->paramsRegex[$command], $parsed['params'], $params)) return $parsed;
 
-    $params = $this->removeIntegerKeys($params);
     $parsed = array_merge($parsed, $params);
 
-    return array_unique($parsed);
+    return $this->removeIntegerKeys($parsed);
   }
 
   public function parse($message){

@@ -1,7 +1,7 @@
 <?php
 namespace Raideer\Tweech;
 use Raideer\Tweech\Connection\Connection;
-use Raideer\Tweech\Connection\Client;
+use Raideer\Tweech\Client\Client;
 use Raideer\Tweech\Subscribers\SubscriberLoader;
 
 
