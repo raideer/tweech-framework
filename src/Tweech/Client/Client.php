@@ -7,7 +7,7 @@ use Raideer\Tweech\Event\EventEmitter;
 use Raideer\Tweech\Event\Event;
 use Raideer\Tweech\Event\IrcMessageEvent;
 
-use Raideer\Tweech\ChatStream\StreamReader;
+use Raideer\Tweech\Chat\ChatReader;
 
 class Client extends EventEmitter{
 
@@ -34,6 +34,10 @@ class Client extends EventEmitter{
   public function __construct(Connection $connection){
     $this->connection = $connection;
     $this->helper = new ClientHelper($this);
+  }
+
+  public function setConnection(Connection $connection){
+    $this->connection = $connection;
   }
 
   public function __call($name, $arguments){
@@ -108,7 +112,7 @@ class Client extends EventEmitter{
     $this->setLogIn();
     $this->dispatch("tweech.authenticated", new Event());
 
-    $chatreader = new StreamReader($this);
+    $chatreader = new ChatReader($this);
     $chatreader->run();
   }
 
