@@ -16,6 +16,14 @@ class Socket{
     $this->socket = $this->create();
   }
 
+  public function getServer(){
+    return $this->server;
+  }
+
+  public function getPort(){
+    return $this->port;
+  }
+
   protected function create()
   {
     $socket = fsockopen($this->server, $this->port, $errid, $error);
