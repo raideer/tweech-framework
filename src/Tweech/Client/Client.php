@@ -1,12 +1,13 @@
 <?php
 namespace Raideer\Tweech\Client;
-use Raideer\Tweech\Exception\SocketConnectionException;
 use Raideer\Tweech\Connection\Connection;
+use Raideer\Tweech\Connection\Socket;
 
 use Raideer\Tweech\Event\EventEmitter;
 use Raideer\Tweech\Event\Event;
 use Raideer\Tweech\Event\IrcMessageEvent;
 
+use Raideer\Tweech\Chat\Chat;
 use Raideer\Tweech\Chat\ChatReader;
 
 class Client extends EventEmitter{
@@ -22,6 +23,7 @@ class Client extends EventEmitter{
    * @var Socket
    */
   protected $socket;
+  protected $chats = array();
 
   protected $helper;
 
@@ -49,19 +51,10 @@ class Client extends EventEmitter{
 
   /**
    * Creates the socket
-   *
    */
-  public function connectToTwitch(){
+  public function connect(){
     $socket = $this->createSocket($this->connection->getHostname(), $this->connection->getPort());
     $this->setSocket($socket);
-  }
-
-  protected function setSocket($socket){
-    $this->socket = $socket;
-  }
-
-  public function getSocket(){
-    return $this->socket;
   }
 
   protected function setLogIn(){
@@ -82,27 +75,36 @@ class Client extends EventEmitter{
     return $this->loggedIn;
   }
 
+  public function joinChat($name){
+    if(!starts_with($name, "#"))
+    {
+      $name = "#$name";
+    }
+
+    if(array_key_exists($name, $this->chats)){
+      return $this->chats[$name];
+    }
+
+    $chat = new Chat($this, $name);
+    $this->chats[$name] = $chat;
+    return $chat;
+  }
+
+  public function getChat($name){
+    if(!starts_with($name, "#"))
+    {
+      $name = "#$name";
+    }
+
+    if(array_key_exists($name, $this->chats)){
+      return $this->chats[$name];
+    }
+    return null;
+  }
 
   public function command($code, $value){
     $command = strtoupper($code) . " $value\n";
-
-    $socket = $this->getSocket();
-    if(!$socket){
-      throw new SocketConnectionException("Not connected to any socket! Can't send the command");
-      return;
-    }
-
-    fputs($socket, $command);
-  }
-
-  public function read(){
-    $socket = $this->getSocket();
-    if(!$socket){
-      throw new SocketConnectionException("Not connected to any socket! Can't read anything");
-      return;
-    }
-
-    return fgets($socket);
+    $this->socket->send($command);
   }
 
   public function run(){
@@ -117,15 +119,17 @@ class Client extends EventEmitter{
   }
 
   protected function createSocket($server, $port){
-    $socket = fsockopen($server, $port, $errid, $error);
-
-    if(!$socket){
-      throw new SocketConnectionException('Unable to connect to '.$server.':'.$port."! Error ($errid): ".$error);
-
-      return null;
-    }
+    $socket = new Socket($server, $port);
 
     return $socket;
+  }
+
+  protected function setSocket(Socket $socket){
+    $this->socket = $socket;
+  }
+
+  public function getSocket(){
+    return $this->socket;
   }
 
 }

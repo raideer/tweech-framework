@@ -1,11 +1,11 @@
 <?php
-namespace Raideer\Tweech\ChatStream;
+namespace Raideer\Tweech\Chat;
 use Raideer\Tweech\Util\Parser;
 
 use Raideer\Tweech\Event\EventEmitter;
 use Raideer\Tweech\Event\IrcMessageEvent;
 
-class StreamReader{
+class ChatReader{
   /**
    * Stores the client
    * @var \Raideer\Tweech\Connection\Client
@@ -36,7 +36,7 @@ class StreamReader{
 
     while($this->running){
 
-      while($message = $this->client->read()){
+      while($message = $this->client->getSocket()->read()){
         $this->handleMessage($message);
       }
 
