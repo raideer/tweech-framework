@@ -97,7 +97,7 @@ class Tweech extends Container{
   protected function runClient(){
     $client = $this['client'];
 
-    $client->connectToTwitch();
+    $client->connect();
     $client->run();
   }
 
