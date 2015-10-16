@@ -1,7 +1,6 @@
 <?php
 namespace Raideer\Tweech\Connection;
 use Raideer\Tweech\Util\Validator;
-use Raideer\Tweech\Exception\ConnectionException;
 
 class Connection implements ConnectionInterface{
 
@@ -34,7 +33,7 @@ class Connection implements ConnectionInterface{
 
   public function setPassword($password){
     if(!Validator::isValidPassword($password)){
-      throw new ConnectionException('Invalid password format! (http://www.twitchapps.com/tmi)');
+      throw new \InvalidArgumentException('Invalid password format! (http://www.twitchapps.com/tmi)');
     }
     $this->password = $password;
   }
