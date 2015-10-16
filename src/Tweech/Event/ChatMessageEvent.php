@@ -23,8 +23,16 @@ class ChatMessageEvent extends Event{
     return $this->response['username'];
   }
 
+  public function getChannel()
+  {
+    return $this->response['channel'];
+  }
+
   public function getMessage()
   {
+    if(!array_key_exists('message', $this->response)){
+      Logger::debug(json_encode($this->response));
+    }
     return $this->response['message'];
   }
 
