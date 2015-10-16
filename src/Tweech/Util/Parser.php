@@ -38,7 +38,7 @@ class Parser{
     $this->messageRegex = "/^$compiled$/U";
 
     $this->paramsRegex = array(
-      'PRIVMSG' => "/^(?P<channel>#$username)[$space]?:(?P<message>$trailing)$/s",
+      'PRIVMSG' => "/^(?P<chat>#$username)[$space]?:(?P<message>$trailing)$/s",
       '372' => "/^(?P<username>$username)[$space]?:(?P<motd>$trailing)$/s",
       '001' => "/^(?P<username>$username)[$space]?:(?P<welcome>$trailing)$/s",
       '002' => "/^(?P<username>$username)[$space]?:(?P<host>$trailing)$/s",
