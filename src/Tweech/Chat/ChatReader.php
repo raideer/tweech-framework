@@ -27,8 +27,6 @@ class ChatReader{
   public function __construct(\Raideer\Tweech\Client\Client $client){
     $this->client = $client;
     $this->parser = new Parser();
-
-    // $this->run();
   }
 
   public function run(){
