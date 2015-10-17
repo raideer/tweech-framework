@@ -16,6 +16,11 @@ class Socket{
     $this->socket = $this->create();
   }
 
+  public function command(){
+    $command = strtoupper($code) . " $value\n";
+    $this->send($command);
+  }
+
   public function getServer(){
     return $this->server;
   }
