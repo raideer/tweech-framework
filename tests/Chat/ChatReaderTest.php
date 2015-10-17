@@ -9,6 +9,10 @@ class ChatReaderTest extends PHPUnit_Framework_TestCase{
 
   protected function setUp(){
     $this->client = $client = m::mock('Raideer\Tweech\Client\Client');
+    $client->shouldReceive("getSocket")
+            ->andReturn(m::self())
+            ->shouldReceive("read");
+
     $this->reader = new ChatReader($client);
   }
 
@@ -17,6 +21,6 @@ class ChatReaderTest extends PHPUnit_Framework_TestCase{
   }
 
   public function testHandleMessage(){
-    
+
   }
 }
