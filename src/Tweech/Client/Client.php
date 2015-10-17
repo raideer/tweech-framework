@@ -42,6 +42,10 @@ class Client extends EventEmitter{
     $this->connection = $connection;
   }
 
+  public function getConnection(){
+    return $this->connection;
+  }
+
   public function __call($name, $arguments){
     if(method_exists($this->helper, $name))
     {
