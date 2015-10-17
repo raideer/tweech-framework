@@ -30,7 +30,7 @@ class Client extends EventEmitter{
   protected $logger;
 
   protected $loggedIn = false;
-  protected $loggedInCallbacks;
+  protected $loggedInCallbacks = array();
 
 
   public function __construct(Connection $connection){
@@ -69,7 +69,7 @@ class Client extends EventEmitter{
     $this->loggedIn = true;
   }
 
-  public function whenLogged(\Closure $callback){
+  public function whenLogged($callback){
     $this->loggedInCallbacks[] = $callback;
 
     if($this->isLogged()) fire_callbacks($this->loggedInCallbacks, $this);
@@ -128,7 +128,7 @@ class Client extends EventEmitter{
     return $socket;
   }
 
-  protected function setSocket(Socket $socket){
+  public function setSocket(Socket $socket){
     $this->socket = $socket;
   }
 
