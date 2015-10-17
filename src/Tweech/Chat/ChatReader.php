@@ -28,7 +28,7 @@ class ChatReader{
     $this->client = $client;
     $this->parser = new Parser();
 
-    $this->run();
+    // $this->run();
   }
 
   public function run(){
