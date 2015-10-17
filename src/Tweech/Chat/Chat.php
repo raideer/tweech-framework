@@ -45,4 +45,7 @@ class Chat{
     return $this->chat;
   }
 
+  public function getHelper(){
+    return $this->helper;
+  }
 }
