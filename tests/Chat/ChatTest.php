@@ -23,9 +23,22 @@ class ChatTest extends PHPUnit_Framework_TestCase{
     $this->assertSame("#bar", $chat->getName());
   }
 
+  public function testHelper(){
+    $this->client->shouldReceive("command")->once()->with("PRIVMSG", "#foo :bar");
+    $this->chat->send("bar");
+
+    $this->client->shouldReceive("command")->once()->with("PRIVMSG", "#foo :bar");
+    $this->chat->message("bar");
+
+    $this->client->shouldReceive("command")->once()->with("PRIVMSG", "#foo :/w foo bar");
+    $this->chat->whisper("foo", "bar");
+
+    $this->client->shouldReceive("command")->once()->with("PRIVMSG", "#foo :/w foo bar");
+    $this->chat->w("foo", "bar");
+  }
+
   public function testPrivmsg(){
-    $message = "Hello";
-    $this->client->shouldReceive("command")->once()->with('PRIVMSG', "#foo :bar");
+    $this->client->shouldReceive("command")->once()->with("PRIVMSG", "#foo :bar");
     $this->chat->privmsg("bar");
   }
 
