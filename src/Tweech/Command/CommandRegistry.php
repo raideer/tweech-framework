@@ -16,7 +16,8 @@ class CommandRegistry{
 
     $this->commands[$name] = $command;
     $registered = array();
-    $registered[$name]['ids'] = $this->buildId($command);
+    $registered[$name]['ids'] = $ids = $this->buildId($command);
+    $this->registeredIdentifiers = array_merge($this->registeredIdentifiers, $ids);
     $this->registered[] = $registered;
   }
 
@@ -29,7 +30,7 @@ class CommandRegistry{
     return $ids;
   }
 
-  public function getCommandAndRegister($command){
+  public function getCommandAndExecute($command){
 
   }
 
