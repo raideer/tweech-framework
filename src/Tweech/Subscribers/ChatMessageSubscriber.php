@@ -25,8 +25,9 @@ class ChatMessageSubscriber extends EventSubscriber{
   public function onMessageReceived(ChatMessageEvent $event)
   {
     $message = $event->getMessage();
-    if($this->registry->isCommand($message)){
-      $this->registry->getCommandAndExecute($message);
+
+    if($this->registry->getId($message)){
+      echo "\nCommand found\n";
     }
   }
 
