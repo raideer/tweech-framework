@@ -5,7 +5,7 @@ interface CommandInterface{
 
   public function getCommand();
 
-  public function run();
+  public function run($event);
 
   public function getCommandIdentifier();
 
