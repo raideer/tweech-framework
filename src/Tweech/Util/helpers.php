@@ -93,6 +93,14 @@ if ( ! function_exists('fire_callbacks'))
 	}
 }
 
+if ( ! function_exists('remove_command_str'))
+{
+	function remove_command_str($message, $command)
+	{
+		return substr($message, strlen("$command "));
+	}
+}
+
 if ( ! function_exists('with'))
 {
 	/**
