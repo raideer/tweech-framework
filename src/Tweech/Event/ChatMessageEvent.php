@@ -23,6 +23,11 @@ class ChatMessageEvent extends Event{
     return $this->response['username'];
   }
 
+  public function getChatName()
+  {
+    return $this->response['chat'];
+  }
+
   public function getChat()
   {
     return $this->client->getChat($this->response['chat']);
