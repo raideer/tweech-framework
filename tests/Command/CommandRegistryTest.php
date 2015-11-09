@@ -20,13 +20,6 @@ class CommandRegistryTest extends PHPUnit_Framework_TestCase{
     m::close();
   }
 
-  public function test_getId(){
-    $string = "!foobar test";
-    $id = $this->registry->getId($string);
-
-    $this->assertSame("!", $id);
-  }
-
   public function test_getCommandIfExists(){
     $string = "!foobar test";
 
