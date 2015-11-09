@@ -4,45 +4,69 @@ use Raideer\Tweech\Command\CommandInterface;
 
 class CommandRegistry{
 
+  /**
+   * Holds the loaded commands
+   * @var CommandInterface[]
+   */
   protected $commands = [];
-  protected $registeredIdentifiers = [];
-  protected $ids = [];
 
+  /**
+   * Symbol that identifies the command
+   * @var string
+   */
+  protected $id = "!";
+
+  /**
+   * Registers a command
+   * @param  CommandInterface $command
+   * @return void
+   */
   public function register(CommandInterface $command){
+    /**
+     * Gets the name of the command
+     * @var string
+     */
     $name = $command->getCommand();
+
+    /**
+     * Check if the command isn't already registered
+     * otherwise throw an exception
+     */
     if(array_key_exists($name, $this->commands)){
       throw new CommandException("Command with name '$name' already registered");
       return;
     }
 
-    $this->registeredIdentifiers[$name] = $ids = $command->getCommandIdentifier();
-    $this->ids = array_merge($this->ids, $ids);
+    /**
+     * Adds the command to the array
+     */
     $this->commands[$name] = $command;
   }
 
-  public function getId($string){
-    foreach($this->ids as $id){
-      if(starts_with($string, $id)){
-        return $id;
-      }
-    }
-
-    return null;
-  }
-
+  /**
+   * Check if the given string contains a command
+   * if so, return the registered command
+   * @param  string $string Received Message
+   * @return Command        Returns the command or null
+   */
   public function getCommandIfExists($string){
-    $id = $this->getId($string);
-    if($id === null){
-      return null;
-    }
-
-    foreach($this->registeredIdentifiers as $commandName => $ids){
-      if(array_search($id, $ids) !== false){
-        if(starts_with($string, $id . $commandName)){
-          return $this->commands[$commandName];
-        }
+    /**
+     * Checks if the message starts with the command id
+     */
+    if(starts_with($string, $this->id)){
+      /**
+       * Cycles through the registered commands and looks for a match
+       */
+      foreach($this->commands as $commandName => $command){
+          if(starts_with($string, $this->id . $commandName)){
+            return $command;
+          }
       }
     }
+    /**
+     * If command is not found, return null
+     */
     return null;
   }
+
 }
