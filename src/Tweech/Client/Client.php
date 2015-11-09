@@ -23,13 +23,29 @@ class Client extends EventEmitter{
    * @var Socket
    */
   protected $socket;
+
+  /**
+   * Holds the opened chat instances
+   * @var array
+   */
   protected $chats = array();
 
+  /**
+   * Holds the helper class
+   * (Currently empty)
+   * @var ClientHelper
+   */
   protected $helper;
 
-  protected $logger;
-
+  /**
+   * Used to check/set wether the client has logged on or not
+   * @var boolean
+   */
   protected $loggedIn = false;
+  /**
+   * Array of callable functions that are called when the client logs in
+   * @var array
+   */
   protected $loggedInCallbacks = array();
 
 
@@ -46,6 +62,12 @@ class Client extends EventEmitter{
     return $this->connection;
   }
 
+  /**
+   * Magic function for implementing the functions in the helper class
+   * @param  string $name      Name of the function
+   * @param  array $arguments  Array of function arguments
+   * @return void
+   */
   public function __call($name, $arguments){
     if(method_exists($this->helper, $name))
     {
@@ -54,13 +76,18 @@ class Client extends EventEmitter{
   }
 
   /**
-   * Creates the socket
+   * Creates and binds the Socket
+   * @return void
    */
   public function connect(){
     $socket = $this->createSocket($this->connection->getHostname(), $this->connection->getPort());
     $this->setSocket($socket);
   }
 
+  /**
+   * Changes the state of the Client to Logged in
+   * Fires the callbacks
+   */
   protected function setLogIn(){
     if($this->isLogged()) return;
 
@@ -69,6 +96,12 @@ class Client extends EventEmitter{
     $this->loggedIn = true;
   }
 
+  /**
+   * Adds the callback function to the loggedInCallbacks list
+   * If client is already logged in, then the function is called
+   * @param  callable $callback
+   * @return void
+   */
   public function whenLogged($callback){
     $this->loggedInCallbacks[] = $callback;
 
@@ -79,12 +112,21 @@ class Client extends EventEmitter{
     return $this->loggedIn;
   }
 
+  /**
+   * Creates and returns a chat instanca
+   * @param  string $name Twitch chat name
+   * @return Chat
+   */
   public function joinChat($name){
     if(!starts_with($name, "#"))
     {
       $name = "#$name";
     }
 
+    /**
+     * If a Chat with the given name already exists
+     * Then return it
+     */
     if(array_key_exists($name, $this->chats)){
       return $this->chats[$name];
     }
@@ -94,6 +136,11 @@ class Client extends EventEmitter{
     return $chat;
   }
 
+  /**
+   * Returns Chat instance or null
+   * @param  string $name Chat name
+   * @return Chat or null
+   */
   public function getChat($name){
     if(!starts_with($name, "#"))
     {
