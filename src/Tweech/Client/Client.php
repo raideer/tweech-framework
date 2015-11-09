@@ -111,6 +111,10 @@ class Client extends EventEmitter{
     $this->socket->send($command);
   }
 
+  public function rawcommand($command){
+    $this->socket->send("$command\n");
+  }
+
   public function run(){
     $this->command("PASS", $this->connection->getPassword());
     $this->command("NICK", $this->connection->getNickname());

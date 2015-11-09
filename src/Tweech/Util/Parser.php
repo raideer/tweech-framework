@@ -42,7 +42,8 @@ class Parser{
       '372' => "/^(?P<username>$username)[$space]?:(?P<motd>$trailing)$/s",
       '001' => "/^(?P<username>$username)[$space]?:(?P<welcome>$trailing)$/s",
       '002' => "/^(?P<username>$username)[$space]?:(?P<host>$trailing)$/s",
-      '033' => "/^(?P<username>$username)[$space]?:(?P<created>$trailing)$/s"
+      '033' => "/^(?P<username>$username)[$space]?:(?P<created>$trailing)$/s",
+      // '353' => "/^(?P<chat>#$username)[$space]?:(?P<message>$trailing)$/s"
     );
   }
 
