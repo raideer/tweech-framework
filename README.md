@@ -3,3 +3,8 @@
 
 >NOTE: This is a repository that contains the core code of this framework. If you want to build an application using this framework, use [`raideer/tweech`](https://github.com/raideer/tweech) instead
 # TWEECH.PHP
+#### TODO
+* Tweech bot permissions checker
+* User/bot filter
+* User identifier (user/subscriber/moderator etc)
+* Built in twitch moderation commands
