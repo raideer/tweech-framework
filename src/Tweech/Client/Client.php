@@ -153,15 +153,35 @@ class Client extends EventEmitter{
     return null;
   }
 
+  /**
+   * Sends a command
+   * @param  string $code  Command
+   * @param  string $value Command value
+   * @return void
+   */
   public function command($code, $value){
     $command = strtoupper($code) . " $value\n";
     $this->socket->send($command);
   }
 
+  /**
+   * Sends a raw command
+   * @param  string $command Command
+   * @return void
+   */
   public function rawcommand($command){
-    $this->socket->send("$command\n");
+    if(preg_match('/(.+)[\n]$/', $command)){
+      $this->socket->send("$command");
+    }else{
+      $this->socket->send("$command\n");
+    }
   }
 
+  /**
+   * Runs the Client
+   * Authenticates, requests membership, starts reading messages
+   * @return void
+   */
   public function run(){
     $this->command("PASS", $this->connection->getPassword());
     $this->command("NICK", $this->connection->getNickname());
