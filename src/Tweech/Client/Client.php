@@ -165,6 +165,7 @@ class Client extends EventEmitter{
   public function run(){
     $this->command("PASS", $this->connection->getPassword());
     $this->command("NICK", $this->connection->getNickname());
+    $this->rawcommand('CAP REQ :twitch.tv/membership');
 
     $this->setLogIn();
     $this->dispatch("tweech.authenticated", new Event());
