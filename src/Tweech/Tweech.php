@@ -8,7 +8,6 @@ use Raideer\Tweech\Subscribers\SubscriberLoader;
 class Tweech extends Container{
 
   protected $booted = false;
-
   protected $bootCallbacks = array();
   protected $subscribers = array();
 
@@ -25,6 +24,11 @@ class Tweech extends Container{
     $this->runClient();
   }
 
+  /**
+   * Set Tweech as booted
+   * Runs whenBooted callbacks
+   * @return void
+   */
   protected function boot(){
     if($this->booted) return;
 
@@ -33,6 +37,11 @@ class Tweech extends Container{
     $this->booted = true;
   }
 
+  /**
+   * Run callbacks that are waiting for Tweech to boot
+   * @param  Closure $callback Callback function
+   * @return void
+   */
   public function whenBooted(\Closure $callback){
 
     $this->bootCallbacks[] = $callback;
@@ -40,10 +49,18 @@ class Tweech extends Container{
     if($this->isBooted()) fire_callbacks(array($callback), $this);
   }
 
+  /**
+   * [isBooted description]
+   * @return boolean isBooted
+   */
   public function isBooted(){
     return $this->booted;
   }
 
+  /**
+   * Loads Event Subscribers
+   * @return void
+   */
   protected function loadEventSubscribers(){
     $coreSubscribers = array(
       __DIR__."/Subscribers/IrcMessageSubscriber",
@@ -75,12 +92,20 @@ class Tweech extends Container{
 
   }
 
+  /**
+   * Creates the Client instance and attaches it to the container
+   * @return void
+   */
   protected function createClient(){
     $client = new Client($this['connection']);
 
     $this->addToInstance('client', $client);
   }
 
+  /**
+   * [createConnection description]
+   * @return void
+   */
   protected function createConnection(){
     $config = $this['config'];
     /**
@@ -94,6 +119,11 @@ class Tweech extends Container{
                       ));
   }
 
+  /**
+   * Runs the client
+   * Enters an infinite loop
+   * @return void
+   */
   protected function runClient(){
     $client = $this['client'];
 
