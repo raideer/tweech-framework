@@ -1,12 +1,18 @@
 <?php
 namespace Raideer\Tweech\Chat;
 use Raideer\Tweech\Client\Client;
+use Raideer\Tweech\Event\ChatMessageEvent;
+use Raideer\Tweech\Command\CommandRegistry;
+use Raideer\Tweech\Command\CommandInterface;
 
 class Chat{
 
   protected $chat;
   protected $client;
   protected $helper;
+  protected $commandRegistry;
+
+  protected $commands = array();
 
   protected $joined = false;
 
@@ -20,12 +26,25 @@ class Chat{
     $this->client = $client;
     $this->chat = $chat;
     $this->helper = new ChatHelper($this);
+    $this->commandRegistry = new CommandRegistry;
   }
 
   public function __call($name, $arguments){
     if(method_exists($this->helper, $name))
     {
       call_user_func_array(array($this->helper, $name), $arguments);
+    }
+  }
+
+  public function addCommand(CommandInterface $command){
+    $this->commandRegistry->register($command);
+  }
+
+  public function receiveMessage(ChatMessageEvent $event){
+    $message = $event->getMessage();
+    $command = $this->commandRegistry->getCommandIfExists($message);
+    if($command instanceof CommandInterface){
+      $command->run($event);
     }
   }
 

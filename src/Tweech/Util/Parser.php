@@ -3,7 +3,16 @@ namespace Raideer\Tweech\Util;
 
 class Parser{
 
+  /**
+   * Holds regex string for parsing the message
+   * @var string
+   */
   protected $messageRegex;
+
+  /**
+   * Holds regex array for parsing parameters
+   * @var array
+   */
   protected $paramsRegex;
 
   public function __construct(){
@@ -26,7 +35,7 @@ class Parser{
 
     $prefixFull = "((?P<username>$username)(!$username)?(@$username)?\.(?P<server>$server))";
     $prefixPart = "(?:(?P<usernamep>$username)\.(?P<serverp>$server))";
-    $prefixSmall = "(?:(?P<servers>$server))";
+    $prefixSmall = "(?:(?P<servers>$server|jtv))";
 
     $command = "(?P<command>[$letters]+|[$numbers]{3})";
 
@@ -35,14 +44,23 @@ class Parser{
     $prefix = "(?:$prefixFull|$prefixPart|$prefixSmall)";
     $compiled = "(?P<prefix>:$prefix)?[$space]$command$space$params$crlf";
 
+    /**
+     * Regex for parsing the irc message
+     * @var regex string
+     */
     $this->messageRegex = "/^$compiled$/U";
 
+    /**
+     * Command specific regex for parsing parameters
+     * @var array
+     */
     $this->paramsRegex = array(
       'PRIVMSG' => "/^(?P<chat>#$username)[$space]?:(?P<message>$trailing)$/s",
       '372' => "/^(?P<username>$username)[$space]?:(?P<motd>$trailing)$/s",
       '001' => "/^(?P<username>$username)[$space]?:(?P<welcome>$trailing)$/s",
       '002' => "/^(?P<username>$username)[$space]?:(?P<host>$trailing)$/s",
-      '033' => "/^(?P<username>$username)[$space]?:(?P<created>$trailing)$/s"
+      '033' => "/^(?P<username>$username)[$space]?:(?P<created>$trailing)$/s",
+      '353' => "/^($username)[$space]?\=[$space]?(?P<chat>#$username)[$space]?:(?P<users>$trailing)$$/s",
     );
   }
 
@@ -55,6 +73,15 @@ class Parser{
     return $array;
   }
 
+  /**
+   * Removes cuts and pastes key value into a different key
+   * Used here to remove duplicate keys
+   * e.g. There should be only $parsed['server'] not $parsed['servers'] and $parsed['serverp']
+   * @param  key $from
+   * @param  key $to
+   * @param  array $parsed
+   * @return array
+   */
   protected function copyAndDelete($from,$to,$parsed){
     if(array_key_exists($from,$parsed)){
       if($parsed[$to] != null){
@@ -68,18 +95,31 @@ class Parser{
     return $parsed;
   }
 
+  /**
+   * Checks each message and runs the parameters through regex
+   * @param  array $parsed
+   * @return array
+   */
   protected function parseParameters($parsed){
     $command = strtoupper($parsed['command']);
     if(!array_key_exists($command, $this->paramsRegex)) return $parsed;
-
 
     if(!preg_match($this->paramsRegex[$command], $parsed['params'], $params)) return $parsed;
 
     $parsed = array_merge($parsed, $params);
 
+    if($command == 353 && array_key_exists('users', $parsed)){
+      $parsed['users'] = explode(' ', $parsed['users']);
+    }
+
     return $this->removeIntegerKeys($parsed);
   }
 
+  /**
+   * Main parsing function
+   * @param  string $message Received irc message
+   * @return array           Parsed
+   */
   public function parse($message){
     if(strpos($message, "\r\n") === false){
       return null;
@@ -90,16 +130,24 @@ class Parser{
       return $parsed;
     }
 
+    /**
+     * Removing duplicates
+     * usernamep -> username
+     * serverp -> server
+     * servers -> server
+     * @var [type]
+     */
     $parsed = $this->copyAndDelete('usernamep','username', $parsed);
     $parsed = $this->copyAndDelete('serverp','server', $parsed);
     $parsed = $this->copyAndDelete('servers','server', $parsed);
 
-    $parsed['full'] = $parsed[0];
-
+    /**
+     * Raw message
+     */
+    $parsed['raw'] = $parsed[0];
 
     $parsed = $this->parseParameters($parsed);
 
-    // return $this->removeIntegerKeys($parsed);
     return array_filter($this->removeIntegerKeys($parsed));
   }
 }
