@@ -62,7 +62,7 @@ class Tweech extends Container{
    * @return void
    */
   protected function loadEventSubscribers(){
-    
+
     $coreSubscribers = array(
       __DIR__."/Subscribers/IrcMessageSubscriber",
       __DIR__."/Subscribers/ChatMessageSubscriber"
@@ -70,7 +70,6 @@ class Tweech extends Container{
 
     $client = $this['client'];
     $client->registerEventSubscriber($coreSubscribers);
-    $client->registerEventSubscriber($subscribers);
 
   }
 
