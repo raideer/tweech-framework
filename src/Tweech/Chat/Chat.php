@@ -40,6 +40,10 @@ class Chat{
     $this->commandRegistry->register($command);
   }
 
+  public function getCommands(){
+    return $this->commandRegistry->getCommands();
+  }
+
   public function receiveMessage(ChatMessageEvent $event){
     $message = $event->getMessage();
     $command = $this->commandRegistry->getCommandIfExists($message);
