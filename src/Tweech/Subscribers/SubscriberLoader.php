@@ -21,8 +21,17 @@ class SubscriberLoader{
   public function add($data){
     if(is_array($data)){
       $this->subscribers = array_merge($this->subscribers, $data);
+    }else if($data instanceof \Symfony\Component\EventDispatcher\EventSubscriberInterface){
+
+      if(!in_array(get_class($data), $this->loaded)){
+        $this->emitter->addSubscriber($data);
+        $this->loaded[] = get_class($data);
+      }
+
     }else{
-      $this->subscribers[] = $path;
+      if(is_string($data)){
+        $this->subscribers[] = $data;
+      }
     }
   }
 
@@ -48,7 +57,7 @@ class SubscriberLoader{
       }
 
       /**
-       * Append ".php" if the path doesn't end with it
+       * Appending ".php"
        */
       if(!ends_with($subscriber, ".php")){
         $path = $subscriber . ".php";
