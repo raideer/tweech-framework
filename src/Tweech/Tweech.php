@@ -69,14 +69,9 @@ class Tweech extends Container{
 
     $subscribers =  $this['config']['subscribers'];
 
-    foreach($subscribers as $i => $subscriber){
-      $subscribers[$i] = $this['path.app'] . "/subscribers/$subscriber";
-    }
-
-    $loader = new SubscriberLoader($this['client']);
-    $loader->add($coreSubscribers);
-    $loader->add($subscribers);
-    $loader->loadAll();
+    $client = $this['client'];
+    $client->registerEventSubscriber($coreSubscribers);
+    $client->registerEventSubscriber($subscribers);
 
   }
 
