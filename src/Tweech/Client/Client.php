@@ -1,14 +1,15 @@
 <?php
 namespace Raideer\Tweech\Client;
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Raideer\Tweech\Subscribers\SubscriberLoader;
 use Raideer\Tweech\Connection\Connection;
-use Raideer\Tweech\Connection\Socket;
-
-use Raideer\Tweech\Event\EventEmitter;
-use Raideer\Tweech\Event\Event;
 use Raideer\Tweech\Event\IrcMessageEvent;
-
-use Raideer\Tweech\Chat\Chat;
+use Raideer\Tweech\Event\EventEmitter;
+use Raideer\Tweech\Connection\Socket;
 use Raideer\Tweech\Chat\ChatReader;
+use Raideer\Tweech\Event\Event;
+use Raideer\Tweech\Chat\Chat;
 
 class Client extends EventEmitter{
 
@@ -48,10 +49,13 @@ class Client extends EventEmitter{
    */
   protected $loggedInCallbacks = array();
 
+  protected $subscriberLoader;
+
 
   public function __construct(Connection $connection){
     $this->connection = $connection;
     $this->helper = new ClientHelper($this);
+    $this->subscriberLoader = new SubscriberLoader($this);
   }
 
   public function setConnection(Connection $connection){
@@ -192,6 +196,13 @@ class Client extends EventEmitter{
 
     $chatreader = new ChatReader($this);
     $chatreader->run();
+  }
+
+  public function registerEventSubscriber($subscriber){
+
+    $this->subscriberLoader->add($subscriber);
+    $this->subscriberLoader->loadAll();
+
   }
 
   protected function createSocket($server, $port){
