@@ -15,7 +15,7 @@ class SubscriberLoader{
   }
 
   /**
-   * Adds to the subscribers aray
+   * Adds to the subscribers array
    * @param array/string $data
    */
   public function add($data){
