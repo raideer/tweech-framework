@@ -4,7 +4,8 @@ use Raideer\Tweech\Event\EventEmitter;
 
 class SubscriberLoader{
 
-  protected $subscribers;
+  protected $subscribers = [];
+  protected $loaded = [];
   protected $emitter;
 
   public function __construct(EventEmitter $emitter, array $subscribers = array()){
@@ -39,6 +40,14 @@ class SubscriberLoader{
       $path = $subscriber;
 
       /**
+       * Checking if the commmand is loaded
+       * If it is, then we skip to the next one
+       */
+      if(in_array($subscriber, $this->loaded)){
+        continue;
+      }
+
+      /**
        * Append ".php" if the path doesn't end with it
        */
       if(!ends_with($subscriber, ".php")){
@@ -70,9 +79,10 @@ class SubscriberLoader{
       /**
        * Instantiating and adding the class to the event emitter (Client)
        */
-      $subscriber = new $class();
-      $this->emitter->addSubscriber($subscriber);
+      $this->emitter->addSubscriber(new $class());
+      $this->loaded[] = $subscriber;
     }
 
   }
+
 }
