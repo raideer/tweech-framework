@@ -44,6 +44,14 @@ class CommandRegistry{
   }
 
   /**
+   * Returns an array of commands
+   * @return array
+   */
+  public function getCommands(){
+    return $this->commands;
+  }
+
+  /**
    * Check if the given string contains a command
    * if so, return the registered command
    * @param  string $string Received Message
