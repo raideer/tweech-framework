@@ -44,7 +44,7 @@ class IrcMessageSubscriber extends EventSubscriber{
          * If we receive a ping then we want to pong it back
          */
         case "PING":
-          $client->command("PONG", $response['full']);
+          $client->command("PONG", ":" . $response['server']);
           break;
         case "PRIVMSG":
           $client->dispatch('chat.message', new ChatMessageEvent($response, $client));
