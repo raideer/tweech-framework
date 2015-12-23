@@ -8,6 +8,7 @@ class Parser{
    * @var string
    */
   protected $messageRegex;
+  protected $messageRegexBasic;
 
   /**
    * Holds regex array for parsing parameters
@@ -42,14 +43,16 @@ class Parser{
     $params = "(?P<params>$trailing)";
 
     $prefix = "(?:$prefixFull|$prefixPart|$prefixSmall)";
+
     $compiled = "(?P<prefix>:$prefix)?[$space]$command$space$params$crlf";
+    $basic = "(?:$command$space:$server)";
 
     /**
      * Regex for parsing the irc message
      * @var regex string
      */
     $this->messageRegex = "/^$compiled$/U";
-
+    $this->messageRegexBasic = "/^$basic/U";
     /**
      * Command specific regex for parsing parameters
      * @var array
@@ -126,7 +129,12 @@ class Parser{
     }
 
     if(!preg_match($this->messageRegex, $message, $parsed)){
-      $parsed = array('invalid' => $message);
+      if(!preg_match($this->messageRegexBasic, $message, $parsed)){
+
+        $parsed = array('invalid' => $message);
+
+      }
+
       return $parsed;
     }
 
