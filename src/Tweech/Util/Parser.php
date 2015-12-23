@@ -45,7 +45,7 @@ class Parser{
     $prefix = "(?:$prefixFull|$prefixPart|$prefixSmall)";
 
     $compiled = "(?P<prefix>:$prefix)?[$space]$command$space$params$crlf";
-    $basic = "(?:$command$space:$server)";
+    $basic = "(?:$command$space:(?P<server>$server))";
 
     /**
      * Regex for parsing the irc message
@@ -132,10 +132,8 @@ class Parser{
       if(!preg_match($this->messageRegexBasic, $message, $parsed)){
 
         $parsed = array('invalid' => $message);
-
+        return $parsed;
       }
-
-      return $parsed;
     }
 
     /**
