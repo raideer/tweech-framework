@@ -1,8 +1,6 @@
 <?php
 namespace Raideer\Tweech\Api\Resources;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 class Search extends Resource{
 
   public function searchChannels($query, $options = []){
