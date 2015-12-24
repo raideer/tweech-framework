@@ -25,7 +25,7 @@ class Videos extends Resource{
       "period" => ["week", "month", "all"]
     ];
 
-    return $this->wrapper->get("videos/$id", ['query' => $this->resolveOptions($options, $defaults, [], $values)]);
+    return $this->wrapper->get("videos/top", ['query' => $this->resolveOptions($options, $defaults, [], $values)]);
   }
 
   public function getChannelVideos($channel, $options = []){
