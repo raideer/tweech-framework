@@ -25,6 +25,8 @@ class Wrapper{
   protected $search;
   protected $streams;
   protected $teams;
+  protected $users;
+  protected $videos;
 
   public function __construct(){
 
@@ -47,6 +49,8 @@ class Wrapper{
     $this->search    = new Resources\Search($this);
     $this->streams   = new Resources\Streams($this);
     $this->teams     = new Resources\Teams($this);
+    $this->users     = new Resources\Users($this);
+    $this->videos     = new Resources\Videos($this);
   }
 
   public function registerResource(Resources\Resource $resource){
