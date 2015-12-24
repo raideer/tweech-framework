@@ -27,7 +27,7 @@ abstract class Resource{
 
     if(!empty($allowedTypes)){
       foreach($allowedTypes as $name => $type){
-        $resolver->setAllowedTypes($name, $type);
+        $resolver->setAllowedValues($name, $type);
       }
     }
 
