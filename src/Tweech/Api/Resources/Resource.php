@@ -11,8 +11,11 @@ abstract class Resource{
   public function __construct(Wrapper $wrapper){
 
     $this->wrapper = $wrapper;
-
+    $this->wrapper->registerResource($this);
+    
   }
+
+  abstract function getName();
 
   public function resolveOptions($options, $defaults, $required = [], $allowedTypes = []){
 
@@ -34,5 +37,6 @@ abstract class Resource{
     return $resolver->resolve($options);
 
   }
+
 
 }

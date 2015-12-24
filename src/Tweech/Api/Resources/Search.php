@@ -3,6 +3,10 @@ namespace Raideer\Tweech\Api\Resources;
 
 class Search extends Resource{
 
+  public function getName(){
+    return "search";
+  }
+
   public function searchChannels($query, $options = []){
 
     $defaults = [

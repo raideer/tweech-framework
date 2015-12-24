@@ -3,6 +3,10 @@ namespace Raideer\Tweech\Api\Resources;
 
 class Channels extends Resource{
 
+  public function getName(){
+    return "channels";
+  }
+
   public function getChannel($name){
 
     return $this->wrapper->get("channels/$name");

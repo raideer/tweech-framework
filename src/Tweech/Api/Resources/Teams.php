@@ -3,6 +3,10 @@ namespace Raideer\Tweech\Api\Resources;
 
 class Teams extends Resource{
 
+  public function getName(){
+    return "teams";
+  }
+
   public function getTeams($options = []){
 
     $defaults = [

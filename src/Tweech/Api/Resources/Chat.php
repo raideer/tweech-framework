@@ -3,6 +3,10 @@ namespace Raideer\Tweech\Api\Resources;
 
 class Chat extends Resource{
 
+  public function getName(){
+    return "chat";
+  }
+
   public function getChat($channel){
 
     return $this->wrapper->get("chat/$channel");

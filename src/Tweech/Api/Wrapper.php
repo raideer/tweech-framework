@@ -12,7 +12,7 @@ class Wrapper{
   protected $apiURL = "https://api.twitch.tv/kraken/";
 
   protected $client;
-  protected $resource = null;
+  protected $resources = [];
 
   /**
    * API Resources
@@ -49,39 +49,33 @@ class Wrapper{
     $this->teams     = new Resources\Teams($this);
   }
 
-  public function resource($name = null){
+  public function registerResource(Resources\Resource $resource){
+    $this->resources[$resource->getName()] = $resource;
+  }
 
-    switch($name){
-      case "channels":
-        $this->resource = $this->channels;
-        break;
+  public function getResources(){
 
-      case "chat":
-        $this->resource = $this->chat;
-        break;
+    return array_keys($this->resources);
+  }
 
-      case "follows":
-        $this->resource = $this->follows;
-        break;
+  public function resource($name){
 
-      case "games":
-        $this->resource = $this->games;
-        break;
-
-      case "search":
-        $this->resource = $this->search;
-        break;
-
-      case "streams":
-        $this->resource = $this->streams;
-        break;
-
-      case "teams":
-        $this->resource = $this->streams;
-        break;
+    if(!isset($this->resources[$name])){
+      throw new InvalidArgumentException("Resource $name does not exist!");
+      return;
     }
 
-    return $this->resource;
+    return $this->resources[$name];
+  }
+
+  public function __get($resource){
+
+    return $this->resource(strtolower($resource));
+  }
+
+  public function __isset($resource){
+
+    return array_key_exists(strtolower($resource));
   }
 
   public function get($target, $options = []){

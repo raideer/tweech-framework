@@ -3,6 +3,10 @@ namespace Raideer\Tweech\Api\Resources;
 
 class Games extends Resource{
 
+  public function getName(){
+    return "games";
+  }
+
   public function getTopGames($options = []){
 
     $defaults = [

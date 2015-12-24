@@ -8,7 +8,6 @@
 * Tweech bot permissions checker
 * User/command permssions
 * Command queue (to make sure the bot isnt banned for spamming)
-* Save all usernames (from 353 command)
 * User/bot filter
 * User identifier (user/subscriber/moderator etc)
 * Built in twitch moderation commands

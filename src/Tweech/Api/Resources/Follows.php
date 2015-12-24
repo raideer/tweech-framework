@@ -3,6 +3,10 @@ namespace Raideer\Tweech\Api\Resources;
 
 class Follows extends Resource{
 
+  public function getName(){
+    return "follows";
+  }
+
   /**
    * Returns a list of follow objects
    *
