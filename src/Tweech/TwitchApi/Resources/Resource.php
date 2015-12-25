@@ -1,5 +1,5 @@
 <?php
-namespace Raideer\Tweech\Api\Resources;
+namespace Raideer\Tweech\TwitchApi\Resources;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Raideer\Tweech\Api\Wrapper;
@@ -12,7 +12,7 @@ abstract class Resource{
 
     $this->wrapper = $wrapper;
     $this->wrapper->registerResource($this);
-    
+
   }
 
   abstract function getName();

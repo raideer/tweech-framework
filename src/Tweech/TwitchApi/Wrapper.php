@@ -1,5 +1,5 @@
 <?php
-namespace Raideer\Tweech\Api;
+namespace Raideer\Tweech\TwitchApi;
 
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client as Guzzle;

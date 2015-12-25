@@ -1,5 +1,5 @@
 <?php
-namespace Raideer\Tweech\Api\Resources;
+namespace Raideer\Tweech\TwitchApi\Resources;
 
 class Follows extends Resource{
 
