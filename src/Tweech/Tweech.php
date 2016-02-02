@@ -68,8 +68,7 @@ class Tweech extends Container{
       \Raideer\Tweech\Subscribers\ChatMessageSubscriber::class,
     ];
 
-    $client = $this['client'];
-    $client->registerEventSubscriber($coreSubscribers);
+    $this['client']->registerEventSubscriber($coreSubscribers);
 
   }
 
@@ -80,7 +79,7 @@ class Tweech extends Container{
   public function saveApplicationPaths(array $paths){
 
     foreach($paths as $key => $value){
-      $this->addToInstance("path.$key", realpath($value));
+      $this->instance("path.$key", realpath($value));
     }
 
   }
@@ -92,7 +91,7 @@ class Tweech extends Container{
   protected function createClient(){
     $client = new Client($this['connection']);
 
-    $this->addToInstance('client', $client);
+    $this->instance('client', $client);
   }
 
   /**
@@ -104,12 +103,13 @@ class Tweech extends Container{
     /**
      * Attaches the Connection instance to the container
      */
-    $this->addToInstance('connection', new Connection(
-                        $config['app.connection.username'],
-                        $config['app.connection.oauth'],
-                        $config['app.connection.ircServer.hostname'],
-                        $config['app.connection.ircServer.port']
-                      ));
+    $this->instance('connection', new Connection(
+        $config['app.connection.username'],
+        $config['app.connection.oauth'],
+        $config['app.connection.ircServer.hostname'],
+        $config['app.connection.ircServer.port']
+      )
+    );
   }
 
   /**

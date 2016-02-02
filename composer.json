@@ -15,12 +15,13 @@
       "symfony/event-dispatcher": "^2.7",
       "monolog/monolog": "^1.17",
       "guzzlehttp/guzzle": "^6.1",
-        "raideer/twitch-api": "^1.0"
+      "raideer/twitch-api": "^1.0",
+      "dsawardekar/encase-php": "~0.1.0"
     },
     "require-dev":
     {
       "phpunit/phpunit": "4.8.11",
-      "mockery/mockery": "dev-master"
+        "mockery/mockery": "^0.9.4"
     },
     "autoload":
     {
