@@ -1,4 +1,6 @@
 <?php
+namespace Raideer\Tweech\Subscribers;
+
 use Raideer\Tweech\Event\IrcMessageEvent;
 use Raideer\Tweech\Event\ChatMessageEvent;
 use Raideer\Tweech\Util\IrcEvents;
@@ -22,7 +24,7 @@ class IrcMessageSubscriber extends EventSubscriber{
     $client = $event->getClient();
 
     /**
-     * Check if the response contains a command
+     * Check if the response contains an IRC command
      */
     if(!array_key_exists('command',$response)) return;
 

@@ -63,10 +63,10 @@ class Tweech extends Container{
    */
   protected function loadEventSubscribers(){
 
-    $coreSubscribers = array(
-      __DIR__."/Subscribers/IrcMessageSubscriber",
-      __DIR__."/Subscribers/ChatMessageSubscriber"
-    );
+    $coreSubscribers = [
+      \Raideer\Tweech\Subscribers\IrcMessageSubscriber::class,
+      \Raideer\Tweech\Subscribers\ChatMessageSubscriber::class,
+    ];
 
     $client = $this['client'];
     $client->registerEventSubscriber($coreSubscribers);
@@ -120,6 +120,7 @@ class Tweech extends Container{
   protected function runClient(){
     $client = $this['client'];
 
+    \Logger::info("Starting the loop");
     $client->connect();
     $client->run();
   }

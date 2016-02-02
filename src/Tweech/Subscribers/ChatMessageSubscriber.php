@@ -1,4 +1,6 @@
 <?php
+namespace Raideer\Tweech\Subscribers;
+
 use Raideer\Tweech\Event\ChatMessageEvent;
 use Raideer\Tweech\Subscribers\EventSubscriber;
 

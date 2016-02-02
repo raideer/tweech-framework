@@ -135,6 +135,8 @@ class Client extends EventEmitter{
       return $this->chats[$name];
     }
 
+    \Logger::info("Joining Chat $name");
+
     $chat = new Chat($this, $name);
     $this->chats[$name] = $chat;
     return $chat;
