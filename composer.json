@@ -15,7 +15,7 @@
       "symfony/event-dispatcher": "^2.7",
       "monolog/monolog": "^1.17",
       "guzzlehttp/guzzle": "^6.1",
-      "raideer/tweech-framework": "1.*"
+      "raideer/twitch-api": "1.*"
     },
     "require-dev":
     {
