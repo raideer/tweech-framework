@@ -15,8 +15,6 @@
       "symfony/event-dispatcher": "^2.7",
       "monolog/monolog": "^1.17",
       "guzzlehttp/guzzle": "^6.1",
-      "php-school/cli-menu": "^1.0",
-      "symfony/options-resolver": "^3.0",
       "raideer/tweech-framework": "1.*"
     },
     "require-dev":
