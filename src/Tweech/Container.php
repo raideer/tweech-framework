@@ -7,14 +7,6 @@ abstract class Container extends IocContainer implements ArrayAccess{
 
   protected $container;
 
-  // public function __construct(){
-  //   $this->container = new IocContainer();
-  // }
-
-  // public function __call($method, $params){
-  //   call_user_func_array(array($this->container, $method), $params);
-  // }
-
   public function applyInstance($id, $instance){
     $this->object($id, $instance);
   }
