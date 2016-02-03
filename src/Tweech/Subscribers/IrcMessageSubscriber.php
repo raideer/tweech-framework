@@ -4,17 +4,17 @@ namespace Raideer\Tweech\Subscribers;
 use Raideer\Tweech\Event\IrcMessageEvent;
 use Raideer\Tweech\Event\ChatMessageEvent;
 use Raideer\Tweech\Util\IrcEvents;
-use Raideer\Tweech\Subscribers\EventSubscriber;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class IrcMessageSubscriber extends EventSubscriber{
+class IrcMessageSubscriber implements EventSubscriberInterface{
 
   public static function getSubscribedEvents(){
 
-    return array(
-      'irc.message' => array(
+    return [
+      'irc.message' => [
         'onMessageReceived', 0
-      )
-    );
+      ]
+    ];
 
   }
 
@@ -26,14 +26,18 @@ class IrcMessageSubscriber extends EventSubscriber{
     /**
      * Check if the response contains an IRC command
      */
-    if(!array_key_exists('command',$response)) return;
+    if(!array_key_exists('command', $response)) return;
 
     /**
      * Check if the received command has an alias
      * See: Raideer\Tweech\Util\IrcEvents
      */
-    if($name = IrcEvents::getName($response['command']))
+    $name = IrcEvents::getName($response['command']);
+    echo $name;
+
+    if($name)
     {
+      echo $name;
       $client->dispatch("irc.message.$name", new IrcMessageEvent($response, $client));
     }
     else if(!is_numeric($response['command']))
