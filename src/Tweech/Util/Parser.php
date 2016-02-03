@@ -59,6 +59,7 @@ class Parser{
      */
     $this->paramsRegex = array(
       'PRIVMSG' => "/^(?P<chat>#$username)[$space]?:(?P<message>$trailing)$/s",
+      'MODE' => "/^(?P<chat>#$username)[$space]?(?P<type>[+-]o)(?P<user>$trailing)$/s",
       '372' => "/^(?P<username>$username)[$space]?:(?P<motd>$trailing)$/s",
       '001' => "/^(?P<username>$username)[$space]?:(?P<welcome>$trailing)$/s",
       '002' => "/^(?P<username>$username)[$space]?:(?P<host>$trailing)$/s",
@@ -105,6 +106,7 @@ class Parser{
    */
   protected function parseParameters($parsed){
     $command = strtoupper($parsed['command']);
+
     if(!array_key_exists($command, $this->paramsRegex)) return $parsed;
 
     if(!preg_match($this->paramsRegex[$command], $parsed['params'], $params)) return $parsed;
@@ -124,11 +126,14 @@ class Parser{
    * @return array           Parsed
    */
   public function parse($message){
+    //Checking if the message is a full line
     if(strpos($message, "\r\n") === false){
       return null;
     }
 
+    //Parsing the message
     if(!preg_match($this->messageRegex, $message, $parsed)){
+      //Trying again if fails
       if(!preg_match($this->messageRegexBasic, $message, $parsed)){
 
         $parsed = array('invalid' => $message);
@@ -137,7 +142,7 @@ class Parser{
     }
 
     /**
-     * Removing duplicates
+     * Removing duplicate keys
      * usernamep -> username
      * serverp -> server
      * servers -> server
