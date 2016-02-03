@@ -3,20 +3,20 @@ namespace Raideer\Tweech;
 use ArrayAccess;
 use Encase\Container as IocContainer;
 
-abstract class Container implements ArrayAccess{
+abstract class Container extends IocContainer implements ArrayAccess{
 
   protected $container;
 
-  public function __construct(){
-    $this->container = new IocContainer();
-  }
+  // public function __construct(){
+  //   $this->container = new IocContainer();
+  // }
 
-  public function __call($method, $params){
-    call_user_func_array(array($this->container, $method), $params);
-  }
+  // public function __call($method, $params){
+  //   call_user_func_array(array($this->container, $method), $params);
+  // }
 
   public function applyInstance($id, $instance){
-    $this->container->object($id, $instance);
+    $this->object($id, $instance);
   }
 
   public function offsetSet($offset, $value) {
@@ -24,14 +24,14 @@ abstract class Container implements ArrayAccess{
   }
 
   public function offsetExists($offset) {
-    return $this->container->contains($offset);
+    return $this->contains($offset);
   }
 
   public function offsetUnset($offset) {
-    $this->container->unregister($offset);
+    $this->unregister($offset);
   }
 
   public function offsetGet($offset) {
-    return $this->container->lookup($offset);
+    return $this->lookup($offset);
   }
 }
