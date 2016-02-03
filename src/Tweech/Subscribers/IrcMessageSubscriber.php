@@ -32,10 +32,9 @@ class IrcMessageSubscriber implements EventSubscriberInterface{
      * Check if the received command has an alias
      * See: Raideer\Tweech\Util\IrcEvents
      */
-    
+
     if($name = IrcEvents::getName($response['command']))
     {
-      echo $name;
       $client->dispatch("irc.message.$name", new IrcMessageEvent($response, $client));
     }
     else if(!is_numeric($response['command']))
