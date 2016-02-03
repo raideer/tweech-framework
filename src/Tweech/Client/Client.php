@@ -8,6 +8,7 @@ use Raideer\Tweech\Event\IrcMessageEvent;
 use Raideer\Tweech\Event\EventEmitter;
 use Raideer\Tweech\Connection\Socket;
 use Raideer\Tweech\Chat\ChatReader;
+use Stiphle\Throttle\LeakyBucket;
 use Raideer\Tweech\Event\Event;
 use Raideer\Tweech\Chat\Chat;
 
@@ -84,7 +85,11 @@ class Client extends EventEmitter{
    * @return void
    */
   public function connect(){
-    $socket = $this->createSocket($this->connection->getHostname(), $this->connection->getPort());
+    $socket = $this->createSocket(
+      $this->connection->getHostname(),
+      $this->connection->getPort(),
+      new LeakyBucket
+    );
     $this->setSocket($socket);
   }
 
@@ -192,6 +197,7 @@ class Client extends EventEmitter{
     $this->command("PASS", $this->connection->getPassword());
     $this->command("NICK", $this->connection->getNickname());
     $this->rawcommand('CAP REQ :twitch.tv/membership');
+    $this->rawcommand('NAMES');
 
     $this->setLogIn();
     $this->dispatch("tweech.authenticated", new Event());
@@ -205,8 +211,8 @@ class Client extends EventEmitter{
     $this->subscriberLoader->loadAll();
   }
 
-  protected function createSocket($server, $port){
-    $socket = new Socket($server, $port);
+  protected function createSocket($server, $port, $throttle = null){
+    $socket = new Socket($server, $port, $throttle);
 
     return $socket;
   }
