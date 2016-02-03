@@ -79,7 +79,7 @@ class Tweech extends Container{
   public function saveApplicationPaths(array $paths){
 
     foreach($paths as $key => $value){
-      $this->instance("path.$key", realpath($value));
+      $this->applyInstance("path.$key", realpath($value));
     }
 
   }
@@ -91,7 +91,7 @@ class Tweech extends Container{
   protected function createClient(){
     $client = new Client($this['connection']);
 
-    $this->instance('client', $client);
+    $this->applyInstance('client', $client);
   }
 
   /**
@@ -103,7 +103,7 @@ class Tweech extends Container{
     /**
      * Attaches the Connection instance to the container
      */
-    $this->instance('connection', new Connection(
+    $this->applyInstance('connection', new Connection(
         $config['app.connection.username'],
         $config['app.connection.oauth'],
         $config['app.connection.ircServer.hostname'],
