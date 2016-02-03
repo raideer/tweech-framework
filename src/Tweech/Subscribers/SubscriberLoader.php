@@ -35,6 +35,10 @@ class SubscriberLoader{
     }
   }
 
+  public function getListeners(){
+    return $this->emitter->getListeners();
+  }
+
   public function loadAll(){
     /**
      * Get the list of stored subscribers
@@ -46,7 +50,6 @@ class SubscriberLoader{
      * For each subscriber in the array of subscribers
      */
     foreach($list as $subscriber){
-      $path = $subscriber;
 
       /**
        * Checking if the commmand is loaded
@@ -57,38 +60,15 @@ class SubscriberLoader{
       }
 
       /**
-       * Appending ".php"
-       */
-      if(!ends_with($subscriber, ".php")){
-        $path = $subscriber . ".php";
-      }
-
-      /**
-       * Check if the file exists
-       */
-      if(!file_exists($path)) continue;
-
-      /**
-       * Get the class name from the file path
-       */
-      if(!preg_match('/[\\|\/](?P<class>[A-Za-z]+)\.php$/', $path, $match)) continue;
-
-      /**
-       * Requiring the class
-       */
-      require_once $path;
-      $class = $match['class'];
-
-      /**
        * Checking if the class is actually a subclass of EventSubscriberInterface
        */
-      $reflection = new \ReflectionClass($class);
+      $reflection = new \ReflectionClass($subscriber);
       if(!$reflection->isSubclassOf("Symfony\Component\EventDispatcher\EventSubscriberInterface")) continue;
 
       /**
        * Instantiating and adding the class to the event emitter (Client)
        */
-      $this->emitter->addSubscriber(new $class());
+      $this->emitter->addSubscriber($reflection->newInstance());
       $this->loaded[] = $subscriber;
     }
 
