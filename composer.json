@@ -16,7 +16,8 @@
       "monolog/monolog": "^1.17",
       "guzzlehttp/guzzle": "^6.1",
       "raideer/twitch-api": "^1.0",
-      "dsawardekar/encase-php": "~0.1.0"
+      "dsawardekar/encase-php": "~0.1.0",
+      "davedevelopment/stiphle": "^0.9.0"
     },
     "require-dev":
     {
