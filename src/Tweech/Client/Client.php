@@ -201,10 +201,8 @@ class Client extends EventEmitter{
   }
 
   public function registerEventSubscriber($subscriber){
-
     $this->subscriberLoader->add($subscriber);
     $this->subscriberLoader->loadAll();
-
   }
 
   protected function createSocket($server, $port){
