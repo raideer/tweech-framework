@@ -7,13 +7,15 @@ class Socket{
   protected $port;
 
   protected $socket;
+  protected $throttle;
 
-  public function __construct($server, $port = 6667)
+  public function __construct($server, $port = 6667, $throttle = null)
   {
     $this->server = $server;
     $this->port = $port;
 
     $this->socket = $this->create();
+    $this->throttle = $throttle;
   }
 
   public function getServer(){
@@ -30,9 +32,9 @@ class Socket{
 
     if(!$socket){
       throw new SocketConnectionException('Unable to connect to '.$this->server.':'.$this->port."! Error ($errid): ".$error);
-
       return null;
     }
+
     return $socket;
   }
 
@@ -47,6 +49,11 @@ class Socket{
       return;
     }
 
+    if($this->throttle){
+      // Limiting to 20 messages per 30 seconds
+      // https://github.com/justintv/Twitch-API/blob/master/IRC.md#command--message-limit
+      $this->throttle->throttle('message', 20, 30000);
+    }
     fputs($socket, $command);
   }
 
