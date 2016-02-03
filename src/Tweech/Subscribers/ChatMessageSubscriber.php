@@ -2,9 +2,9 @@
 namespace Raideer\Tweech\Subscribers;
 
 use Raideer\Tweech\Event\ChatMessageEvent;
-use Raideer\Tweech\Subscribers\EventSubscriber;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ChatMessageSubscriber extends EventSubscriber{
+class ChatMessageSubscriber implements EventSubscriberInterface{
 
   protected $registry;
 
