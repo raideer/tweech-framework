@@ -3,9 +3,19 @@ namespace Raideer\Tweech;
 use ArrayAccess;
 use Encase\Container as IocContainer;
 
-abstract class Container extends IocContainer implements ArrayAccess{
+abstract class Container extends IocContainer implements ArrayAccess, ContainerInterface{
+
+  protected static $instance;
 
   protected $container;
+
+  public static function getInstance(){
+    return static::$instance;
+  }
+
+  public static function setInstance(ContainerInterface $container){
+    static::$instance = $container;
+  }
 
   public function applyInstance($id, $instance){
     $this->object($id, $instance);
