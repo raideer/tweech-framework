@@ -1,108 +1,104 @@
 <?php
+
 namespace Raideer\Tweech\Util;
 
-use Monolog\Logger as MonologLogger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Handler\RotatingFileHandler;
-use Monolog\Handler\ErrorLogHandler;
 use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger as MonologLogger;
 
-class Logger {
+class Logger
+{
+    protected $monolog;
 
-  protected $monolog;
+    protected $levels = [
+        'debug',
+        'info',
+        'notice',
+        'warning',
+        'error',
+        'critical',
+        'alert',
+        'emergency',
+    ];
 
-  protected $levels = array(
-		'debug',
-		'info',
-		'notice',
-		'warning',
-		'error',
-		'critical',
-		'alert',
-		'emergency',
-	);
+    public function __construct(MonologLogger $logger)
+    {
+        $this->monolog = $logger;
+    }
 
-  public function __construct(MonologLogger $logger)
-  {
-      $this->monolog = $logger;
-  }
+    protected function callMonolog($method, $parameters)
+    {
+        if (is_array($parameters[0])) {
+            $parameters[0] = json_encode($parameters[0]);
+        }
 
-  protected function callMonolog($method, $parameters)
-	{
-		if (is_array($parameters[0]))
-		{
-			$parameters[0] = json_encode($parameters[0]);
-		}
+        return call_user_func_array([$this->monolog, $method], $parameters);
+    }
 
-		return call_user_func_array(array($this->monolog, $method), $parameters);
-	}
+    public function getLogger()
+    {
+        return $this->monolog;
+    }
 
-  public function getLogger()
-  {
-    return $this->monolog;
-  }
+    public function logToFiles($path, $defaultLevel = 'debug')
+    {
+        $level = $this->parseLevel($defaultLevel);
 
-  public function logToFiles($path, $defaultLevel = 'debug')
-  {
-      $level = $this->parseLevel($defaultLevel);
+        $this->monolog->pushHandler($handler = new StreamHandler($path, $level));
 
-      $this->monolog->pushHandler($handler = new StreamHandler($path, $level));
+        $handler->setFormatter(new LineFormatter());
+    }
 
-      $handler->setFormatter(new LineFormatter());
-  }
+    public function logToDailyFiles($path, $keepFiles = 0, $defaultLevel = 'debug')
+    {
+        $level = $this->parseLevel($defaultLevel);
 
-  public function logToDailyFiles($path, $keepFiles = 0, $defaultLevel = 'debug')
-  {
-      $level = $this->parseLevel($defaultLevel);
+        $this->monolog->pushHandler($handler = new RotatingFileHandler($path, $keepFiles, $level));
 
-      $this->monolog->pushHandler($handler = new RotatingFileHandler($path, $keepFiles, $level));
+        $handler->setFormatter(new LineFormatter());
+    }
 
-      $handler->setFormatter(new LineFormatter());
-  }
+    protected function parseLevel($level)
+    {
+        switch ($level) {
+            case 'debug':
+                return MonologLogger::DEBUG;
 
-  protected function parseLevel($level)
-  {
-    switch ($level){
-			case 'debug':
-				return MonologLogger::DEBUG;
+            case 'info':
+                return MonologLogger::INFO;
 
-			case 'info':
-				return MonologLogger::INFO;
+            case 'notice':
+                return MonologLogger::NOTICE;
 
-			case 'notice':
-				return MonologLogger::NOTICE;
+            case 'warning':
+                return MonologLogger::WARNING;
 
-			case 'warning':
-				return MonologLogger::WARNING;
+            case 'error':
+                return MonologLogger::ERROR;
 
-			case 'error':
-				return MonologLogger::ERROR;
+            case 'critical':
+                return MonologLogger::CRITICAL;
 
-			case 'critical':
-				return MonologLogger::CRITICAL;
+            case 'alert':
+                return MonologLogger::ALERT;
 
-			case 'alert':
-				return MonologLogger::ALERT;
+            case 'emergency':
+                return MonologLogger::EMERGENCY;
 
-			case 'emergency':
-				return MonologLogger::EMERGENCY;
+            default:
+                throw new \InvalidArgumentException('Invalid log level.');
+        }
+    }
 
-			default:
-				throw new \InvalidArgumentException("Invalid log level.");
-		}
-  }
+    public function __call($method, $parameters)
+    {
+        if (in_array($method, $this->levels)) {
+            $method = 'add'.ucfirst($method);
 
-  public function __call($method, $parameters)
-	{
-		if (in_array($method, $this->levels))
-		{
+            return $this->callMonolog($method, $parameters);
+        }
 
-			$method = 'add'.ucfirst($method);
-
-			return $this->callMonolog($method, $parameters);
-		}
-
-		throw new \BadMethodCallException("Method [$method] does not exist.");
-	}
-
+        throw new \BadMethodCallException("Method [$method] does not exist.");
+    }
 }

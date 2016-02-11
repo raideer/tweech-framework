@@ -1,6 +1,7 @@
 <?php
+
 namespace Raideer\Tweech\Exception;
 
-class ConnectionException extends Exception{
-  
+class ConnectionException extends Exception
+{
 }
