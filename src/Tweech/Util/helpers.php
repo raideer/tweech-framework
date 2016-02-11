@@ -1,5 +1,23 @@
 <?php
 
+use Raideer\Tweech\Container;
+
+if (! function_exists('tweech_app')) {
+
+    function tweech_app(){
+        return Container::getInstance();
+    }
+}
+
+if (! function_exists('tweech_get_path')) {
+
+    function tweech_get_path($name){
+        return tweech_app()->offsetGet("path.$name");
+    }
+
+}
+
+
 if (!function_exists('array_get'))
 {
 	/**
@@ -61,6 +79,38 @@ if ( ! function_exists('array_set'))
 	}
 }
 
+if ( ! function_exists('keyFlattener'))
+{
+	/**
+	 * Flattens a multidimensional array to a singledimensional array.
+	 * Keys are concatenated with a dot.
+	 *
+	 * @param  array $array
+	 * @param  string $prefix Key prefix
+	 * @return array
+	 */
+	function keyFlattener($array, $prefix = "") {
+	    $result = [];
+
+	    foreach($array as $key => $value) {
+	        if(is_array($value)) {
+	            $result = $result + keyFlattener($value, $prefix . $key . '.');
+	        }else{
+							$result[$prefix . $key] = $value;
+	        }
+	    }
+	    return $result;
+	}
+}
+
+if ( ! function_exists('flushEcho'))
+{
+	function flushEcho($string, $newLine = true) {
+	    echo $string;
+			if($newLine) echo PHP_EOL;
+			flush();
+	}
+}
 
 if ( ! function_exists('value'))
 {
