@@ -15,6 +15,7 @@ class Tweech extends Container{
    * Run the application
    */
   public function run(){
+    $this->registerInstance();
     $this->createConnection();
     $this->createClient();
 
@@ -22,6 +23,10 @@ class Tweech extends Container{
 
     $this->boot();
     $this->runClient();
+  }
+
+  protected function registerInstance(){
+    static::setInstance($this);
   }
 
   /**
