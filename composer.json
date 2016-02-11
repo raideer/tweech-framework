@@ -9,6 +9,12 @@
             "email": "raideer@5v5.lv"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/raideer/nosqlite.php"
+        }
+    ],
     "require": {
       "php": ">=5.5.0",
       "symfony/config": "^2.7",
@@ -18,7 +24,7 @@
       "raideer/twitch-api": "^1.0",
       "dsawardekar/encase-php": "~0.1.0",
       "davedevelopment/stiphle": "^0.9.0",
-      "mthenw/nosqlite": "*@stable"
+      "mthenw/nosqlite": "dev-master"
     },
     "require-dev":
     {
