@@ -29,14 +29,17 @@ class Parser{
     $letters = "A-Za-z";
     $numbers = "0-9";
     $special = preg_quote('[]\`_^{|}');
+    $tagsSpecial = preg_quote('#:-_');
 
     $trailing = "[^$null$crlf]*";
     $username = "[$letters$numbers$special]+";
     $server = "(?:(?:[$letters$numbers\.]*)\.(?:[$letters$numbers]+)\.(?:[$letters]+))";
 
-    $prefixFull = "((?P<username>$username)(!$username)?(@$username)?\.(?P<server>$server))";
+    $prefixFull = "(?:(?P<username>$username)(!$username)(@$username)\.(?P<server>$server))";
     $prefixPart = "(?:(?P<usernamep>$username)\.(?P<serverp>$server))";
     $prefixSmall = "(?:(?P<servers>$server|jtv))";
+
+    $tags = "(?:@(?:(?:[$letters$numbers\-]+)=(?:(?:[$letters$numbers$tagsSpecial]+)?;?)?)+\s)";
 
     $command = "(?P<command>[$letters]+|[$numbers]{3})";
 
@@ -44,7 +47,7 @@ class Parser{
 
     $prefix = "(?:$prefixFull|$prefixPart|$prefixSmall)";
 
-    $compiled = "(?P<prefix>:$prefix)?[$space]$command$space$params$crlf";
+    $compiled = "(?P<tags>$tags)?:(?P<prefix>$prefix)?[$space]$command$space$params$crlf";
     $basic = "(?:$command$space:(?P<server>$server))";
 
     /**
