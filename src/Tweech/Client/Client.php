@@ -52,6 +52,8 @@ class Client extends EventEmitter{
 
   protected $subscriberLoader;
 
+  protected $grants = [];
+
 
   public function __construct(Connection $connection){
     $this->connection = $connection;
@@ -188,6 +190,31 @@ class Client extends EventEmitter{
     }
   }
 
+  public function hasGrant($name){
+    return in_array($name, $this->grants);
+  }
+
+  public function grantMembership(){
+    $this->rawcommand('CAP REQ :twitch.tv/membership');
+    $this->grants[] = "membership";
+  }
+
+  public function grantCommands(){
+    $this->rawcommand('CAP REQ :twitch.tv/commands');
+    $this->grants[] = "commands";
+  }
+
+  public function grantTags(){
+    $this->rawcommand('CAP REQ :twitch.tv/tags');
+    $this->grants[] = "tags";
+  }
+
+  public function grantAll(){
+    $this->grantMembership();
+    $this->grantCommands();
+    $this->grantTags();
+  }
+
   /**
    * Runs the Client
    * Authenticates, requests membership, starts reading messages
@@ -196,8 +223,8 @@ class Client extends EventEmitter{
   public function run(){
     $this->command("PASS", $this->connection->getPassword());
     $this->command("NICK", $this->connection->getNickname());
-    $this->rawcommand('CAP REQ :twitch.tv/membership');
-    $this->rawcommand('NAMES');
+
+    $this->grantAll();
 
     $this->setLogIn();
     $this->dispatch("tweech.authenticated", new Event());

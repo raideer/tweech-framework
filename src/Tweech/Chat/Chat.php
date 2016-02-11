@@ -2,6 +2,7 @@
 namespace Raideer\Tweech\Chat;
 use Raideer\Tweech\Client\Client;
 use Raideer\Tweech\Event\ChatMessageEvent;
+use Raideer\Tweech\Event\CommandMessageEvent;
 use Raideer\Tweech\Command\CommandRegistry;
 use Raideer\Tweech\Command\CommandInterface;
 
@@ -48,7 +49,8 @@ class Chat{
     $message = $event->getMessage();
     $command = $this->commandRegistry->getCommandIfExists($message);
     if($command instanceof CommandInterface){
-      $command->run($event);
+      $commandEvent = new CommandMessageEvent($event->getResponse(), $event->getClient());
+      $command->run($commandEvent);
     }
   }
 
