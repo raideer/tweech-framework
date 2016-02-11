@@ -1,13 +1,14 @@
 <?php
+
 namespace Raideer\Tweech\Client;
 
-class ClientHelper{
+class ClientHelper
+{
+    protected $client;
+    protected $channel;
 
-  protected $client;
-  protected $channel;
-
-  public function __construct(Client $client){
-    $this->client = $client;
-  }
-
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
+    }
 }

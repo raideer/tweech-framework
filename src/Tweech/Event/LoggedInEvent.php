@@ -1,6 +1,7 @@
 <?php
+
 namespace Raideer\Tweech\Event;
 
-class LoggedInEvent extends Event{
-
+class LoggedInEvent extends Event
+{
 }

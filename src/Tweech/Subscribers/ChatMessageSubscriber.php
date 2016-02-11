@@ -1,27 +1,25 @@
 <?php
+
 namespace Raideer\Tweech\Subscribers;
 
 use Raideer\Tweech\Event\ChatMessageEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ChatMessageSubscriber implements EventSubscriberInterface{
+class ChatMessageSubscriber implements EventSubscriberInterface
+{
+    protected $registry;
 
-  protected $registry;
+    public static function getSubscribedEvents()
+    {
+        return [
+      'chat.message' => [
+        'onMessageReceived', 0,
+      ],
+    ];
+    }
 
-  public static function getSubscribedEvents()
-  {
-
-    return array(
-      'chat.message' => array(
-        'onMessageReceived', 0
-      )
-    );
-
-  }
-
-  public function onMessageReceived(ChatMessageEvent $event)
-  {
-    $event->getChat()->receiveMessage($event);
-  }
-
+    public function onMessageReceived(ChatMessageEvent $event)
+    {
+        $event->getChat()->receiveMessage($event);
+    }
 }

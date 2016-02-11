@@ -1,10 +1,10 @@
 <?php
+
 namespace Raideer\Tweech\Command;
 
-interface CommandInterface{
+interface CommandInterface
+{
+    public function getCommand();
 
-  public function getCommand();
-
-  public function run($event);
-
+    public function run($event);
 }

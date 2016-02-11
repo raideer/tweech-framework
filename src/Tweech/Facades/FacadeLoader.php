@@ -1,39 +1,40 @@
 <?php
+
 namespace Raideer\Tweech\Facades;
 
-class FacadeLoader {
+class FacadeLoader
+{
+    protected $facades;
+    protected $loaded = false;
 
-  protected $facades;
-  protected $loaded = false;
-
-  public function __construct($list){
-    $this->facades = $list;
-  }
-
-  public function load()
-  {
-    if(!$this->loaded)
+    public function __construct($list)
     {
-      $this->addToAutoloadRegistry();
-
-      $this->loaded = true;
+        $this->facades = $list;
     }
-  }
 
-  public function facade($class, $facade)
-  {
-    $this->facades[$class] = $facade;
-  }
+    public function load()
+    {
+        if (!$this->loaded) {
+            $this->addToAutoloadRegistry();
 
-  public function loadFacade($facade){
-    if (isset($this->facades[$facade]))
-		{
-			return class_alias($this->facades[$facade], $facade);
-		}
-  }
+            $this->loaded = true;
+        }
+    }
 
-  protected function addToAutoloadRegistry()
-  {
-    spl_autoload_register(array($this, 'loadFacade'), true, true);
-  }
+    public function facade($class, $facade)
+    {
+        $this->facades[$class] = $facade;
+    }
+
+    public function loadFacade($facade)
+    {
+        if (isset($this->facades[$facade])) {
+            return class_alias($this->facades[$facade], $facade);
+        }
+    }
+
+    protected function addToAutoloadRegistry()
+    {
+        spl_autoload_register([$this, 'loadFacade'], true, true);
+    }
 }

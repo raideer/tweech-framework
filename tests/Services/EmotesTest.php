@@ -1,7 +1,8 @@
 <?php
 
-class EmotesTest extends PHPUnit_Framework_TestCase{
-  //
+class EmotesTest extends PHPUnit_Framework_TestCase
+{
+    //
   // private $service;
   //
   // public function setUp(){
@@ -41,7 +42,7 @@ class EmotesTest extends PHPUnit_Framework_TestCase{
   // public function test_globalIsFetched_returnsTrue(){
   //
   //   $this->service->getGlobalEmotes();
-  // 
+  //
   //   $this->assertTrue($this->service->globalIsFetched());
   // }
   //
@@ -51,5 +52,4 @@ class EmotesTest extends PHPUnit_Framework_TestCase{
   //
   //   $this->assertTrue($this->service->subscribersAreFetched());
   // }
-
 }
