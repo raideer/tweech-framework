@@ -1,12 +1,13 @@
 <?php
+
 namespace Raideer\Tweech\Util;
 
-class Validator{
+class Validator
+{
+    public static function isValidPassword($password)
+    {
+        $match = preg_match('/oauth:([a-z0-9]+)/', strtolower($password));
 
-  public static function isValidPassword($password){
-    $match = preg_match("/oauth:([a-z0-9]+)/", strtolower($password));
-
-    return ($match)?true:false;
-  }
-
+        return ($match) ? true : false;
+    }
 }

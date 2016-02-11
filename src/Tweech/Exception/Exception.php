@@ -2,6 +2,6 @@
 
 namespace Raideer\Tweech\Exception;
 
-class Exception extends \Exception{
-  
+class Exception extends \Exception
+{
 }

@@ -1,17 +1,22 @@
 <?php
+
 namespace Raideer\Tweech\Connection;
 
-interface ConnectionInterface{
+interface ConnectionInterface
+{
+    public function setHostname($hostname);
 
-  public function setHostname($hostname);
-  public function getHostname();
+    public function getHostname();
 
-  public function setPort($port);
-  public function getPort();
+    public function setPort($port);
 
-  public function setPassword($password);
-  public function getPassword();
+    public function getPort();
 
-  public function setNickname($nickname);
-  public function getNickname();
+    public function setPassword($password);
+
+    public function getPassword();
+
+    public function setNickname($nickname);
+
+    public function getNickname();
 }
