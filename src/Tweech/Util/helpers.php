@@ -1,11 +1,9 @@
 <?php
 
-use Raideer\Tweech\Container;
-
 if (!function_exists('tweech_app')) {
     function tweech_app()
     {
-        return Container::getInstance();
+        return Raideer\Tweech\Container::getInstance();
     }
 }
 
