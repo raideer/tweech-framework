@@ -98,12 +98,12 @@ class Client extends EventEmitter
    */
   public function connect()
   {
-      $socket = $this->createSocket(
-      $this->connection->getHostname(),
-      $this->connection->getPort(),
-      new LeakyBucket()
+    $socket = $this->createSocket(
+        $this->connection->getHostname(),
+        $this->connection->getPort(),
+        new LeakyBucket()
     );
-      $this->setSocket($socket);
+    $this->setSocket($socket);
   }
 
   /**
@@ -112,13 +112,13 @@ class Client extends EventEmitter
    */
   protected function setLogIn()
   {
-      if ($this->isLogged()) {
-          return;
-      }
+    if ($this->isLogged()) {
+        return;
+    }
 
-      fire_callbacks($this->loggedInCallbacks, $this);
+    fire_callbacks($this->loggedInCallbacks, $this);
 
-      $this->loggedIn = true;
+    $this->loggedIn = true;
   }
 
   /**
