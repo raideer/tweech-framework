@@ -21,7 +21,8 @@
       "symfony/event-dispatcher": "^2.7",
       "monolog/monolog": "^1.17",
       "guzzlehttp/guzzle": "^6.1",
-      "raideer/twitch-api": "^1.0",
+      "raideer/twitch-api": "1.*",
+      "raideer/tweech-irc-parser": "dev-master",
       "dsawardekar/encase-php": "~0.1.0",
       "davedevelopment/stiphle": "^0.9.0",
       "mthenw/nosqlite": "dev-master"
