@@ -3,7 +3,7 @@
 namespace Raideer\Tweech\Chat;
 
 use Raideer\Tweech\Event\IrcMessageEvent;
-use Raideer\Tweech\Util\Parser;
+use Raideer\Tweech\Parser;
 
 class ChatReader
 {
