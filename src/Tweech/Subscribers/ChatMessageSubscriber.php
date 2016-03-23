@@ -12,10 +12,10 @@ class ChatMessageSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-      'chat.message' => [
-        'onMessageReceived', 0,
-      ],
-    ];
+          'chat.message' => [
+            'onMessageReceived', 0,
+          ],
+        ];
     }
 
     public function onMessageReceived(ChatMessageEvent $event)
