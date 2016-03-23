@@ -3,16 +3,19 @@
 namespace Raideer\Tweech\Event;
 
 use Raideer\Tweech\Client\Client;
+use Raideer\Tweech\Chat\Sender;
 
 class ChatMessageEvent extends Event
 {
     protected $response;
     protected $client;
+    protected $sender;
 
     public function __construct($response, Client $client)
     {
         $this->response = $response;
         $this->client = $client;
+        $this->sender = new Sender($response['tags']);
     }
 
     public function getResponse()
@@ -20,9 +23,14 @@ class ChatMessageEvent extends Event
         return $this->response;
     }
 
-    public function getSender()
+    public function getSenderName()
     {
         return $this->response['username'];
+    }
+
+    public function getSender()
+    {
+        return $this->sender;
     }
 
     public function getChatName()
