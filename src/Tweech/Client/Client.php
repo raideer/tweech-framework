@@ -8,54 +8,54 @@ use Raideer\Tweech\Connection\Connection;
 use Raideer\Tweech\Connection\Socket;
 use Raideer\Tweech\Event\Event;
 use Raideer\Tweech\Event\EventEmitter;
-use Raideer\Tweech\Subscribers\SubscriberLoader;
+use Raideer\Tweech\Listeners\ListenerLoader;
 use Stiphle\Throttle\LeakyBucket;
 
 class Client extends EventEmitter
 {
     /**
-   * Connection details.
-   *
-   * @var \Raideer\Tweech\Connection\Connection;
-   */
-  protected $connection;
+    * Connection details.
+    *
+    * @var \Raideer\Tweech\Connection\Connection;
+    */
+    protected $connection;
 
-  /**
-   * Holds the socket.
-   *
-   * @var Socket
-   */
-  protected $socket;
+    /**
+    * Holds the socket.
+    *
+    * @var Socket
+    */
+    protected $socket;
 
-  /**
-   * Holds the opened chat instances.
-   *
-   * @var array
-   */
-  protected $chats = [];
+    /**
+    * Holds the opened chat instances.
+    *
+    * @var array
+    */
+    protected $chats = [];
 
-  /**
-   * Holds the helper class
-   * (Currently empty).
-   *
-   * @var ClientHelper
-   */
-  protected $helper;
+    /**
+    * Holds the helper class
+    * (Currently empty).
+    *
+    * @var ClientHelper
+    */
+    protected $helper;
 
-  /**
-   * Used to check/set wether the client has logged on or not.
-   *
-   * @var bool
-   */
-  protected $loggedIn = false;
-  /**
-   * Array of callable functions that are called when the client logs in.
-   *
-   * @var array
-   */
-  protected $loggedInCallbacks = [];
+    /**
+    * Used to check/set wether the client has logged on or not.
+    *
+    * @var bool
+    */
+    protected $loggedIn = false;
+    /**
+    * Array of callable functions that are called when the client logs in.
+    *
+    * @var array
+    */
+    protected $loggedInCallbacks = [];
 
-    protected $subscriberLoader;
+    protected $listenerLoader;
 
     protected $grants = [];
 
@@ -63,7 +63,7 @@ class Client extends EventEmitter
     {
         $this->connection = $connection;
         $this->helper = new ClientHelper($this);
-        $this->subscriberLoader = new SubscriberLoader($this);
+        $this->listenerLoader = new ListenerLoader($this);
     }
 
     public function setConnection(Connection $connection)
@@ -112,13 +112,13 @@ class Client extends EventEmitter
     */
     protected function setLogIn()
     {
-    if ($this->isLogged()) {
-        return;
-    }
+        if ($this->isLogged()) {
+            return;
+        }
 
-    fire_callbacks($this->loggedInCallbacks, $this);
+        fire_callbacks($this->loggedInCallbacks, $this);
 
-    $this->loggedIn = true;
+        $this->loggedIn = true;
     }
 
     /**
@@ -131,11 +131,11 @@ class Client extends EventEmitter
     */
     public function whenLogged($callback)
     {
-      $this->loggedInCallbacks[] = $callback;
+        $this->loggedInCallbacks[] = $callback;
 
-      if ($this->isLogged()) {
-          fire_callbacks($this->loggedInCallbacks, $this);
-      }
+        if ($this->isLogged()) {
+            fire_callbacks($this->loggedInCallbacks, $this);
+        }
     }
 
     public function isLogged()
@@ -152,24 +152,24 @@ class Client extends EventEmitter
     */
     public function joinChat($name)
     {
-      if (!starts_with($name, '#')) {
-          $name = "#$name";
-      }
+        if (!starts_with($name, '#')) {
+            $name = "#$name";
+        }
 
-    /*
-     * If a Chat with the given name already exists
-     * Then return it
-     */
-    if (array_key_exists($name, $this->chats)) {
-        return $this->chats[$name];
-    }
+        /*
+        * If a Chat with the given name already exists
+        * Then return it
+        */
+        if (array_key_exists($name, $this->chats)) {
+            return $this->chats[$name];
+        }
 
-      \Logger::info("Joining Chat $name");
+        \Logger::info("Joining Chat $name");
 
-      $chat = new Chat($this, $name);
-      $this->chats[$name] = $chat;
+        $chat = new Chat($this, $name);
+        $this->chats[$name] = $chat;
 
-      return $chat;
+        return $chat;
     }
 
     /**
@@ -181,15 +181,15 @@ class Client extends EventEmitter
     */
     public function getChat($name)
     {
-      if (!starts_with($name, '#')) {
-          $name = "#$name";
-      }
+        if (!starts_with($name, '#')) {
+            $name = "#$name";
+        }
 
-      if (array_key_exists($name, $this->chats)) {
-          return $this->chats[$name];
-      }
+        if (array_key_exists($name, $this->chats)) {
+            return $this->chats[$name];
+        }
 
-      return;
+        return;
     }
 
     /**
@@ -202,8 +202,8 @@ class Client extends EventEmitter
     */
     public function command($code, $value)
     {
-      $command = strtoupper($code)." $value\n";
-      $this->socket->send($command);
+        $command = strtoupper($code)." $value".PHP_EOL;
+        $this->socket->send($command);
     }
 
     /**
@@ -216,9 +216,9 @@ class Client extends EventEmitter
     public function rawcommand($command)
     {
       if (preg_match('/(.+)[\n]$/', $command)) {
-          $this->socket->send("$command");
+          $this->socket->send($command);
       } else {
-          $this->socket->send("$command\n");
+          $this->socket->send($command.PHP_EOL);
       }
     }
 
@@ -272,10 +272,10 @@ class Client extends EventEmitter
         $chatreader->run();
     }
 
-    public function registerEventSubscriber($subscriber)
+    public function registerEventListener($listener)
     {
-        $this->subscriberLoader->add($subscriber);
-        $this->subscriberLoader->loadAll();
+        $this->listenerLoader->add($listener);
+        $this->listenerLoader->loadAll();
     }
 
     protected function createSocket($server, $port, $throttle = null)
