@@ -25,7 +25,7 @@ class ChatMessageEvent extends Event
 
     public function getSenderName()
     {
-        return $this->response['username'];
+        return $this->response['nick'];
     }
 
     public function getSender()
