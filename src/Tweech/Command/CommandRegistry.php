@@ -39,8 +39,6 @@ class CommandRegistry
      */
     if (array_key_exists($name, $this->commands)) {
         throw new CommandException("Command with name '$name' already registered");
-
-        return;
     }
 
     /*
@@ -85,6 +83,6 @@ class CommandRegistry
     /*
      * If command is not found, return null
      */
-    return;
+    return null;
   }
 }
