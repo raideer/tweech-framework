@@ -46,7 +46,8 @@ class IrcMessageListener implements EventSubscriberInterface
                 * If we receive a ping then we want to pong it back
                 */
                 case 'PING':
-                    $client->command('PONG', ':'.$response['host']);
+                    // print_r($response);
+                    $client->command('PONG', ':'.$response['params']);
                     break;
                 case 'PRIVMSG':
                     if ($response['nick'] == 'twitchnotify') {
