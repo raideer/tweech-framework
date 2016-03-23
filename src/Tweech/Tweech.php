@@ -9,7 +9,6 @@ class Tweech extends Container
 {
     protected $booted = false;
     protected $bootCallbacks = [];
-    protected $subscribers = [];
 
   /**
    * Run the application.
@@ -20,7 +19,7 @@ class Tweech extends Container
       $this->createConnection();
       $this->createClient();
 
-      $this->loadEventSubscribers();
+      $this->loadEventListeners();
 
       $this->boot();
       $this->runClient();
@@ -75,18 +74,18 @@ class Tweech extends Container
   }
 
   /**
-   * Loads Event Subscribers.
+   * Loads Event Listeners.
    *
    * @return void
    */
-  protected function loadEventSubscribers()
+  protected function loadEventListeners()
   {
-      $coreSubscribers = [
-      \Raideer\Tweech\Subscribers\IrcMessageSubscriber::class,
-      \Raideer\Tweech\Subscribers\ChatMessageSubscriber::class,
+    $coreListeners = [
+        \Raideer\Tweech\Listeners\IrcMessageListener::class,
+        \Raideer\Tweech\Listeners\ChatMessageListener::class,
     ];
 
-      $this['client']->registerEventSubscriber($coreSubscribers);
+      $this['client']->registerEventListener($coreListeners);
   }
 
   /**
