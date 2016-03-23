@@ -76,42 +76,42 @@ class Client extends EventEmitter
         return $this->connection;
     }
 
-  /**
-   * Magic function for implementing the functions in the helper class.
-   *
-   * @param  string $name      Name of the function
-   * @param  array $arguments  Array of function arguments
-   *
-   * @return void
-   */
-  public function __call($name, $arguments)
-  {
+    /**
+    * Magic function for implementing the functions in the helper class.
+    *
+    * @param  string $name      Name of the function
+    * @param  array $arguments  Array of function arguments
+    *
+    * @return void
+    */
+    public function __call($name, $arguments)
+    {
       if (method_exists($this->helper, $name)) {
           call_user_func_array([$this->helper, $name], $arguments);
       }
-  }
+    }
 
-  /**
-   * Creates and binds the Socket.
-   *
-   * @return void
-   */
-  public function connect()
-  {
+    /**
+    * Creates and binds the Socket.
+    *
+    * @return void
+    */
+    public function connect()
+    {
     $socket = $this->createSocket(
         $this->connection->getHostname(),
         $this->connection->getPort(),
         new LeakyBucket()
     );
     $this->setSocket($socket);
-  }
+    }
 
-  /**
-   * Changes the state of the Client to Logged in
-   * Fires the callbacks.
-   */
-  protected function setLogIn()
-  {
+    /**
+    * Changes the state of the Client to Logged in
+    * Fires the callbacks.
+    */
+    protected function setLogIn()
+    {
     if ($this->isLogged()) {
         return;
     }
@@ -119,39 +119,39 @@ class Client extends EventEmitter
     fire_callbacks($this->loggedInCallbacks, $this);
 
     $this->loggedIn = true;
-  }
+    }
 
-  /**
-   * Adds the callback function to the loggedInCallbacks list
-   * If client is already logged in, then the function is called.
-   *
-   * @param  callable $callback
-   *
-   * @return void
-   */
-  public function whenLogged($callback)
-  {
+    /**
+    * Adds the callback function to the loggedInCallbacks list
+    * If client is already logged in, then the function is called.
+    *
+    * @param  callable $callback
+    *
+    * @return void
+    */
+    public function whenLogged($callback)
+    {
       $this->loggedInCallbacks[] = $callback;
 
       if ($this->isLogged()) {
           fire_callbacks($this->loggedInCallbacks, $this);
       }
-  }
+    }
 
     public function isLogged()
     {
         return $this->loggedIn;
     }
 
-  /**
-   * Creates and returns a chat instanca.
-   *
-   * @param  string $name Twitch chat name
-   *
-   * @return Chat
-   */
-  public function joinChat($name)
-  {
+    /**
+    * Creates and returns a chat instanca.
+    *
+    * @param  string $name Twitch chat name
+    *
+    * @return Chat
+    */
+    public function joinChat($name)
+    {
       if (!starts_with($name, '#')) {
           $name = "#$name";
       }
@@ -170,17 +170,17 @@ class Client extends EventEmitter
       $this->chats[$name] = $chat;
 
       return $chat;
-  }
+    }
 
-  /**
-   * Returns Chat instance or null.
-   *
-   * @param  string $name Chat name
-   *
-   * @return Chat or null
-   */
-  public function getChat($name)
-  {
+    /**
+    * Returns Chat instance or null.
+    *
+    * @param  string $name Chat name
+    *
+    * @return Chat or null
+    */
+    public function getChat($name)
+    {
       if (!starts_with($name, '#')) {
           $name = "#$name";
       }
@@ -190,37 +190,37 @@ class Client extends EventEmitter
       }
 
       return;
-  }
+    }
 
-  /**
-   * Sends a command.
-   *
-   * @param  string $code  Command
-   * @param  string $value Command value
-   *
-   * @return void
-   */
-  public function command($code, $value)
-  {
+    /**
+    * Sends a command.
+    *
+    * @param  string $code  Command
+    * @param  string $value Command value
+    *
+    * @return void
+    */
+    public function command($code, $value)
+    {
       $command = strtoupper($code)." $value\n";
       $this->socket->send($command);
-  }
+    }
 
-  /**
-   * Sends a raw command.
-   *
-   * @param  string $command Command
-   *
-   * @return void
-   */
-  public function rawcommand($command)
-  {
+    /**
+    * Sends a raw command.
+    *
+    * @param  string $command Command
+    *
+    * @return void
+    */
+    public function rawcommand($command)
+    {
       if (preg_match('/(.+)[\n]$/', $command)) {
           $this->socket->send("$command");
       } else {
           $this->socket->send("$command\n");
       }
-  }
+    }
 
     public function hasGrant($name)
     {
@@ -252,25 +252,25 @@ class Client extends EventEmitter
         $this->grantTags();
     }
 
-  /**
-   * Runs the Client
-   * Authenticates, requests membership, starts reading messages.
-   *
-   * @return void
-   */
-  public function run()
-  {
-      $this->command('PASS', $this->connection->getPassword());
-      $this->command('NICK', $this->connection->getNickname());
+    /**
+    * Runs the Client
+    * Authenticates, requests membership, starts reading messages.
+    *
+    * @return void
+    */
+    public function run()
+    {
+        $this->command('PASS', $this->connection->getPassword());
+        $this->command('NICK', $this->connection->getNickname());
 
-      $this->grantAll();
+        $this->grantAll();
 
-      $this->setLogIn();
-      $this->dispatch('tweech.authenticated', new Event());
+        $this->setLogIn();
+        $this->dispatch('tweech.authenticated', new Event());
 
-      $chatreader = new ChatReader($this);
-      $chatreader->run();
-  }
+        $chatreader = new ChatReader($this);
+        $chatreader->run();
+    }
 
     public function registerEventSubscriber($subscriber)
     {
