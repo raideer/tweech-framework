@@ -39,14 +39,13 @@ class IrcMessageListener implements EventSubscriberInterface
         if ($name = IrcEvents::getName($response['command'])) {
             $client->dispatch("irc.message.$name", new IrcMessageEvent($response, $client));
         } elseif (!is_numeric($response['command'])) {
-            $name = $response['command'];
+            $command = $response['command'];
 
-            switch ($name) {
+            switch ($command) {
                 /*
                 * If we receive a ping then we want to pong it back
                 */
                 case 'PING':
-                    // print_r($response);
                     $client->command('PONG', ':'.$response['params']);
                     break;
                 case 'PRIVMSG':
