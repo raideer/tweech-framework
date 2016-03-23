@@ -17,8 +17,8 @@ class NewSubscriptionEvent extends Event
         $this->response = $response;
         $this->client = $client;
 
-        $subRegex = '/^(?P<user>[^ ]+) just subscribed!/';
-        $resubRegex = '/^(?P<user>[^ ]+) subscribed for (?P<time>[0-9]+) months? in a row!/';
+        $subRegex = '/^(?P<user>[^ ]+) just subscribed/';
+        $resubRegex = '/^(?P<user>[^ ]+) subscribed for (?P<time>[0-9]+)/';
 
         if (!preg_match($subRegex, $response['message'], $match)) {
             if (preg_match($resubRegex, $response['message'], $match)) {
