@@ -58,7 +58,10 @@ class Chat
     {
         $this->client->listen('tick.second', function(){
             $this->secondsElapsed++;
-            $this->messagesPerSecond = $this->messagesReceived / $this->secondsElapsed;
+
+            if ($this->secondsElapsed >= 1) {
+                $this->messagesPerSecond = $this->messagesReceived / $this->secondsElapsed;
+            }
         });
 
         $this->client->listen('tick.minute', function(){
@@ -69,7 +72,7 @@ class Chat
 
     public function getMessagesPerSecond()
     {
-        return $this->messagesPerSecond;
+        return round($this->messagesPerSecond, 2);
     }
 
     public function getTotalMessagesReceived()
