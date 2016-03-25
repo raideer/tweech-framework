@@ -19,6 +19,11 @@ class Chat
 
     protected $joined = false;
 
+    protected $secondsElapsed = 0;
+    protected $messagesReceived = 0;
+    protected $messagesReceivedTotal = 0;
+    protected $messagesPerSecond = 0;
+
     public function __construct(Client $client, $chat)
     {
         if (!starts_with($chat, '#')) {
@@ -29,6 +34,7 @@ class Chat
         $this->chat = $chat;
         $this->helper = new ChatHelper($this);
         $this->commandRegistry = new CommandRegistry();
+        $this->countMessages();
     }
 
     public function __call($name, $arguments)
@@ -48,8 +54,34 @@ class Chat
         return $this->commandRegistry->getCommands();
     }
 
+    public function countMessages()
+    {
+        $this->client->listen('tick.second', function(){
+            $this->secondsElapsed++;
+            $this->messagesPerSecond = $this->messagesReceived / $this->secondsElapsed;
+        });
+
+        $this->client->listen('tick.minute', function(){
+            $this->secondsElapsed = 0;
+            $this->messagesReceived = 0;
+        });
+    }
+
+    public function getMessagesPerSecond()
+    {
+        return $this->messagesPerSecond;
+    }
+
+    public function getTotalMessagesReceived()
+    {
+        return $this->messagesReceivedTotal;
+    }
+
     public function receiveMessage(ChatMessageEvent $event)
     {
+        $this->messagesReceived++;
+        $this->messagesReceivedTotal++;
+
         $message = $event->getMessage();
         $command = $this->commandRegistry->getCommandIfExists($message);
         if ($command instanceof CommandInterface) {
