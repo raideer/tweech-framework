@@ -32,6 +32,7 @@ class Socket
     protected function create()
     {
         $socket = fsockopen($this->server, $this->port, $errid, $error);
+        stream_set_blocking($socket, false);
 
         if (!$socket) {
             throw new SocketConnectionException('Unable to connect to '.$this->server.':'.$this->port."! Error ($errid): ".$error);
