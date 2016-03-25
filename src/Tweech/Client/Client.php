@@ -9,6 +9,7 @@ use Raideer\Tweech\Connection\Socket;
 use Raideer\Tweech\Event\Event;
 use Raideer\Tweech\Event\EventEmitter;
 use Raideer\Tweech\Listeners\ListenerLoader;
+use Raideer\Tweech\Util\Ticker;
 use Stiphle\Throttle\LeakyBucket;
 
 class Client extends EventEmitter
@@ -59,11 +60,14 @@ class Client extends EventEmitter
 
     protected $grants = [];
 
+    protected $throttle;
+
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
         $this->helper = new ClientHelper($this);
         $this->listenerLoader = new ListenerLoader($this);
+        $this->throttle = new LeakyBucket();
     }
 
     public function setConnection(Connection $connection)
@@ -101,7 +105,7 @@ class Client extends EventEmitter
     $socket = $this->createSocket(
         $this->connection->getHostname(),
         $this->connection->getPort(),
-        new LeakyBucket()
+        $this->throttle
     );
     $this->setSocket($socket);
     }
@@ -252,6 +256,11 @@ class Client extends EventEmitter
         $this->grantTags();
     }
 
+    public function getThrottle()
+    {
+        return $this->throttle;
+    }
+
     /**
     * Runs the Client
     * Authenticates, requests membership, starts reading messages.
@@ -268,7 +277,11 @@ class Client extends EventEmitter
         $this->setLogIn();
         $this->dispatch('tweech.authenticated', new Event());
 
+        $ticker = new Ticker($this);
+        $ticker->run();
+
         $chatreader = new ChatReader($this);
+        $chatreader->handleSockets();
         $chatreader->run();
     }
 
