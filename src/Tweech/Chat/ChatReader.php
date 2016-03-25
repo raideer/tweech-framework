@@ -3,6 +3,7 @@
 namespace Raideer\Tweech\Chat;
 
 use Raideer\Tweech\Event\IrcMessageEvent;
+use Raideer\Tweech\Event\Event;
 use Raideer\Tweech\Parser;
 
 class ChatReader
@@ -39,15 +40,26 @@ class ChatReader
         $this->running = true;
 
         while ($this->running) {
-            while ($message = $this->client->getSocket()->read()) {
-                $this->handleMessage($message);
-            }
+            $this->client->dispatch('tick', new Event);
+
+            // if ($message = $this->client->getSocket()->read()) {
+            //     $this->handleMessage($message);
+            // }
         }
     }
 
     public function stop()
     {
         $this->running = false;
+    }
+
+    public function handleSockets()
+    {
+        $this->client->listen('tick', function () {
+            if ($message = $this->client->getSocket()->read()) {
+                $this->handleMessage($message);
+            }
+        });
     }
 
     protected function handleMessage($message)
