@@ -3,7 +3,6 @@
 namespace Raideer\Tweech\Util;
 
 use Raideer\Tweech\Client\Client;
-use Raideer\Tweech\Event\TickEvent;
 
 class Ticker
 {
@@ -24,12 +23,12 @@ class Ticker
 
             if ($time - $this->lastSecond >= 1) {
                 $this->lastSecond = microtime(true);
-                $this->client->dispatch('tick.second', new TickEvent);
+                $this->client->dispatch('tick.second', null);
             }
 
             if ($time - $this->lastMinute >= 60) {
                 $this->lastMinute = microtime(true);
-                $this->client->dispatch('tick.minute', new TickEvent);
+                $this->client->dispatch('tick.minute', null);
             }
         });
     }

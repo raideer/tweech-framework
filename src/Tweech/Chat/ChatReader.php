@@ -3,7 +3,6 @@
 namespace Raideer\Tweech\Chat;
 
 use Raideer\Tweech\Event\IrcMessageEvent;
-use Raideer\Tweech\Event\TickEvent;
 use Raideer\Tweech\Parser;
 
 class ChatReader
@@ -40,7 +39,7 @@ class ChatReader
         $this->running = true;
 
         while ($this->running) {
-            $this->client->dispatch('tick', new TickEvent);
+            $this->client->dispatch('tick', null);
         }
     }
 
