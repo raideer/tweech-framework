@@ -7,6 +7,7 @@ use Raideer\Tweech\Command\CommandInterface;
 use Raideer\Tweech\Command\CommandRegistry;
 use Raideer\Tweech\Event\ChatMessageEvent;
 use Raideer\Tweech\Event\CommandMessageEvent;
+use Raideer\Tweech\Components\IgnoreList;
 
 class Chat
 {
@@ -14,6 +15,7 @@ class Chat
     protected $client;
     protected $helper;
     protected $commandRegistry;
+    protected $ignoredUsers;
 
     protected $commands = [];
 
@@ -34,6 +36,9 @@ class Chat
         $this->chat = $chat;
         $this->helper = new ChatHelper($this);
         $this->commandRegistry = new CommandRegistry();
+        // Ignoring self
+        $this->ignoredUsers = new IgnoreList();
+        $this->ignoredUsers->add($client->getConnection()->getNickname());
         $this->countMessages();
     }
 
@@ -52,6 +57,11 @@ class Chat
     public function getCommands()
     {
         return $this->commandRegistry->getCommands();
+    }
+
+    public function getClient()
+    {
+        return $this->client;
     }
 
     public function countMessages()
@@ -80,16 +90,23 @@ class Chat
         return $this->messagesReceivedTotal;
     }
 
+    public function getIgnoreList()
+    {
+        return $this->ignoredUsers;
+    }
+
     public function receiveMessage(ChatMessageEvent $event)
     {
         $this->messagesReceived++;
         $this->messagesReceivedTotal++;
 
-        $message = $event->getMessage();
-        $command = $this->commandRegistry->getCommandIfExists($message);
-        if ($command instanceof CommandInterface) {
-            $commandEvent = new CommandMessageEvent($event->getResponse(), $event->getClient());
-            $command->run($commandEvent);
+        if (!$this->ignoredUsers->has($event->getSenderName())) {
+            $message = $event->getMessage();
+            $command = $this->commandRegistry->getCommandIfExists($message);
+            if ($command instanceof CommandInterface) {
+                $commandEvent = new CommandMessageEvent($event->getResponse(), $event->getClient());
+                $command->run($commandEvent);
+            }
         }
     }
 
