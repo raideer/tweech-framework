@@ -59,7 +59,7 @@ class Chat
         $this->client->listen('tick.second', function(){
             $this->secondsElapsed++;
 
-            if ($this->secondsElapsed >= 1) {
+            if ($this->secondsElapsed >= 2) {
                 $this->messagesPerSecond = $this->messagesReceived / $this->secondsElapsed;
             }
         });
