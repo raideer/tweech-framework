@@ -5,4 +5,4 @@
 
 # TWEECH.PHP
 ### UNDER DEVELOPMENT
-While basic features, such as chat command handling, emote parsing and subscription listening, are working, there are various things/problems that still need to be worked on.
+While basic features, such as mult-chat and command handling, emote parsing and subscription alerting are working, there are various things/problems that still need to be worked on.
