@@ -12,7 +12,8 @@ class ChatTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->client = $client = m::mock('Raideer\Tweech\Client\Client');
-        $this->client->shouldReceive('getConnection')->once()->andReturn(new Connection('nickname', 'oauth:password123'));
+        $connection = new Connection('nickname', 'oauth:password123');
+        $this->client->shouldReceive('getConnection')->andReturn($connection);
         $this->client->shouldReceive('listen');
         $this->chat = new Chat($client, 'foo');
     }
