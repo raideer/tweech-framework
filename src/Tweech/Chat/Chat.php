@@ -66,7 +66,7 @@ class Chat
 
     public function countMessages()
     {
-        $this->client->listen('tick.second', function(){
+        $this->client->listen('tick.second', function() {
             $this->secondsElapsed++;
 
             if ($this->secondsElapsed >= 2) {
@@ -74,7 +74,7 @@ class Chat
             }
         });
 
-        $this->client->listen('tick.minute', function(){
+        $this->client->listen('tick.minute', function() {
             $this->secondsElapsed = 0;
             $this->messagesReceived = 0;
         });

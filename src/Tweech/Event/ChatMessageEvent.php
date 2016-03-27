@@ -42,10 +42,10 @@ class ChatMessageEvent extends Event
     public function getTags()
     {
         if (!$this->tags) {
-            $parts = explode(";", $this->getResponse()['tags']);
+            $parts = explode(';', $this->getResponse()['tags']);
             $tags = [];
             foreach ($parts as $tag) {
-                $values = explode("=", $tag);
+                $values = explode(';', $tag);
                 $tags[$values[0]] = $values[1];
             }
 

@@ -25,7 +25,5 @@ class IrcEvents
         if (array_key_exists($code, self::$replies)) {
             return self::$replies[$code];
         }
-
-        return null;
     }
 }

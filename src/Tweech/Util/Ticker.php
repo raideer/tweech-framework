@@ -18,7 +18,7 @@ class Ticker
 
     public function run()
     {
-        $this->client->listen('tick', function(){
+        $this->client->listen('tick', function () {
             $time = microtime(true);
 
             if ($time - $this->lastSecond >= 1) {

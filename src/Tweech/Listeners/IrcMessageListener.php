@@ -2,9 +2,9 @@
 
 namespace Raideer\Tweech\Listeners;
 
+use Raideer\Tweech\Event\IrcMessageEvent;
 use Raideer\Tweech\Event\ChatMessageEvent;
 use Raideer\Tweech\Event\NewSubscriptionEvent;
-use Raideer\Tweech\Event\IrcMessageEvent;
 use Raideer\Tweech\Util\IrcEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

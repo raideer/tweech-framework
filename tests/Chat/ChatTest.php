@@ -2,6 +2,7 @@
 
 use Mockery as m;
 use Raideer\Tweech\Chat\Chat;
+use Raideer\Tweech\Connection\Connection;
 
 class ChatTest extends PHPUnit_Framework_TestCase
 {
@@ -11,6 +12,7 @@ class ChatTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->client = $client = m::mock('Raideer\Tweech\Client\Client');
+        $this->client->shouldReceive('getConnection')->once()->andReturn(new Connection('nickname', 'password'));
         $this->chat = new Chat($client, 'foo');
     }
 

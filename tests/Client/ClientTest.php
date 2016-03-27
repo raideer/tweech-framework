@@ -35,14 +35,14 @@ class ClientTest extends PHPUnit_Framework_TestCase
     public function testRun()
     {
         // $this->assertFalse($this->client->isLogged());
-    // $this->connection->shouldReceive('getPassword')->once()->andReturn("oauth:password");
-    // $this->connection->shouldReceive('getNickname')->once()->andReturn("foobar");
-    //
-    // $socket = m::mock("Raideer\Tweech\Connection\Socket");
-    // $this->client->setSocket($socket);
-    // $this->client->getSocket()->shouldReceive('send')
-    //                           ->twice();
-    // $this->client->run();
+        // $this->connection->shouldReceive('getPassword')->once()->andReturn("oauth:password");
+        // $this->connection->shouldReceive('getNickname')->once()->andReturn("foobar");
+        //
+        // $socket = m::mock("Raideer\Tweech\Connection\Socket");
+        // $this->client->setSocket($socket);
+        // $this->client->getSocket()->shouldReceive('send')
+        //                           ->twice();
+        // $this->client->run();
     }
 
     public function testWhenLogged()

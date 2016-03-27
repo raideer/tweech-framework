@@ -29,7 +29,6 @@ class NewSubscriptionEvent extends Event
         } else {
             $this->user = $match['user'];
         }
-
     }
 
     public function isResub()

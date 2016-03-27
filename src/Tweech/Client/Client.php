@@ -15,45 +15,45 @@ use Stiphle\Throttle\LeakyBucket;
 class Client extends EventEmitter
 {
     /**
-    * Connection details.
-    *
-    * @var \Raideer\Tweech\Connection\Connection;
-    */
+     * Connection details.
+     *
+     * @var \Raideer\Tweech\Connection\Connection;
+     */
     protected $connection;
 
     /**
-    * Holds the socket.
-    *
-    * @var Socket
-    */
+     * Holds the socket.
+     *
+     * @var Socket
+     */
     protected $socket;
 
     /**
-    * Holds the opened chat instances.
-    *
-    * @var array
-    */
+     * Holds the opened chat instances.
+     *
+     * @var array
+     */
     protected $chats = [];
 
     /**
-    * Holds the helper class
-    * (Currently empty).
-    *
-    * @var ClientHelper
-    */
+     * Holds the helper class
+     * (Currently empty).
+     *
+     * @var ClientHelper
+     */
     protected $helper;
 
     /**
-    * Used to check/set wether the client has logged on or not.
-    *
-    * @var bool
-    */
+     * Used to check/set wether the client has logged on or not.
+     *
+     * @var bool
+     */
     protected $loggedIn = false;
     /**
-    * Array of callable functions that are called when the client logs in.
-    *
-    * @var array
-    */
+     * Array of callable functions that are called when the client logs in.
+     *
+     * @var array
+     */
     protected $loggedInCallbacks = [];
 
     protected $listenerLoader;
@@ -81,13 +81,13 @@ class Client extends EventEmitter
     }
 
     /**
-    * Magic function for implementing the functions in the helper class.
-    *
-    * @param  string $name      Name of the function
-    * @param  array $arguments  Array of function arguments
-    *
-    * @return void
-    */
+     * Magic function for implementing the functions in the helper class.
+     *
+     * @param  string $name      Name of the function
+     * @param  array $arguments  Array of function arguments
+     *
+     * @return void
+     */
     public function __call($name, $arguments)
     {
       if (method_exists($this->helper, $name)) {
@@ -96,10 +96,10 @@ class Client extends EventEmitter
     }
 
     /**
-    * Creates and binds the Socket.
-    *
-    * @return void
-    */
+     * Creates and binds the Socket.
+     *
+     * @return void
+     */
     public function connect()
     {
     $socket = $this->createSocket(
@@ -111,9 +111,9 @@ class Client extends EventEmitter
     }
 
     /**
-    * Changes the state of the Client to Logged in
-    * Fires the callbacks.
-    */
+     * Changes the state of the Client to Logged in
+     * Fires the callbacks.
+     */
     protected function setLogIn()
     {
         if ($this->isLogged()) {
@@ -126,13 +126,13 @@ class Client extends EventEmitter
     }
 
     /**
-    * Adds the callback function to the loggedInCallbacks list
-    * If client is already logged in, then the function is called.
-    *
-    * @param  callable $callback
-    *
-    * @return void
-    */
+     * Adds the callback function to the loggedInCallbacks list
+     * If client is already logged in, then the function is called.
+     *
+     * @param  callable $callback
+     *
+     * @return void
+     */
     public function whenLogged($callback)
     {
         $this->loggedInCallbacks[] = $callback;
@@ -148,12 +148,12 @@ class Client extends EventEmitter
     }
 
     /**
-    * Creates and returns a chat instanca.
-    *
-    * @param  string $name Twitch chat name
-    *
-    * @return Chat
-    */
+     * Creates and returns a chat instanca.
+     *
+     * @param  string $name Twitch chat name
+     *
+     * @return Chat
+     */
     public function joinChat($name)
     {
         if (!starts_with($name, '#')) {
@@ -161,9 +161,9 @@ class Client extends EventEmitter
         }
 
         /*
-        * If a Chat with the given name already exists
-        * Then return it
-        */
+         * If a Chat with the given name already exists
+         * Then return it
+         */
         if (array_key_exists($name, $this->chats)) {
             return $this->chats[$name];
         }
@@ -177,12 +177,12 @@ class Client extends EventEmitter
     }
 
     /**
-    * Returns Chat instance or null.
-    *
-    * @param  string $name Chat name
-    *
-    * @return Chat or null
-    */
+     * Returns Chat instance or null.
+     *
+     * @param  string $name Chat name
+     *
+     * @return Chat or null
+     */
     public function getChat($name)
     {
         if (!starts_with($name, '#')) {
@@ -197,13 +197,13 @@ class Client extends EventEmitter
     }
 
     /**
-    * Sends a command.
-    *
-    * @param  string $code  Command
-    * @param  string $value Command value
-    *
-    * @return void
-    */
+     * Sends a command.
+     *
+     * @param  string $code  Command
+     * @param  string $value Command value
+     *
+     * @return void
+     */
     public function command($code, $value)
     {
         $command = strtoupper($code)." $value".PHP_EOL;
@@ -211,12 +211,12 @@ class Client extends EventEmitter
     }
 
     /**
-    * Sends a raw command.
-    *
-    * @param  string $command Command
-    *
-    * @return void
-    */
+     * Sends a raw command.
+     *
+     * @param  string $command Command
+     *
+     * @return void
+     */
     public function rawcommand($command)
     {
       if (preg_match('/(.+)[\n]$/', $command)) {
@@ -262,11 +262,11 @@ class Client extends EventEmitter
     }
 
     /**
-    * Runs the Client
-    * Authenticates, requests membership, starts reading messages.
-    *
-    * @return void
-    */
+     * Runs the Client
+     * Authenticates, requests membership, starts reading messages.
+     *
+     * @return void
+     */
     public function run()
     {
         $this->command('PASS', $this->connection->getPassword());

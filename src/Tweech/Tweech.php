@@ -10,83 +10,83 @@ class Tweech extends Container
     protected $booted = false;
     protected $bootCallbacks = [];
 
-  /**
-   * Run the application.
-   */
-  public function run()
-  {
-      $this->registerInstance();
-      $this->createConnection();
-      $this->createClient();
+    /**
+    * Run the application.
+    */
+    public function run()
+    {
+        $this->registerInstance();
+        $this->createConnection();
+        $this->createClient();
 
-      $this->loadEventListeners();
+        $this->loadEventListeners();
 
-      $this->boot();
-      $this->runClient();
-  }
+        $this->boot();
+        $this->runClient();
+    }
 
     protected function registerInstance()
     {
         static::setInstance($this);
     }
 
-  /**
-   * Set Tweech as booted
-   * Runs whenBooted callbacks.
-   *
-   * @return void
-   */
-  protected function boot()
-  {
-      if ($this->booted) {
-          return;
-      }
+    /**
+    * Set Tweech as booted
+    * Runs whenBooted callbacks.
+    *
+    * @return void
+    */
+    protected function boot()
+    {
+        if ($this->booted) {
+            return;
+        }
 
-      fire_callbacks($this->bootCallbacks, $this);
+        fire_callbacks($this->bootCallbacks, $this);
 
-      $this->booted = true;
-  }
+        $this->booted = true;
+    }
 
-  /**
-   * Run callbacks that are waiting for Tweech to boot.
-   *
-   * @param  Closure $callback Callback function
-   *
-   * @return void
-   */
-  public function whenBooted(\Closure $callback)
-  {
-      $this->bootCallbacks[] = $callback;
+    /**
+    * Run callbacks that are waiting for Tweech to boot.
+    *
+    * @param  Closure $callback Callback function
+    *
+    * @return void
+    */
+    public function whenBooted(\Closure $callback)
+    {
+        $this->bootCallbacks[] = $callback;
 
-      if ($this->isBooted()) {
-          fire_callbacks([$callback], $this);
-      }
-  }
+        if ($this->isBooted()) {
+            fire_callbacks([$callback], $this);
+        }
+    }
 
-  /**
-   * [isBooted description].
-   *
-   * @return bool isBooted
-   */
-  public function isBooted()
-  {
-      return $this->booted;
-  }
+    /**
+    * [isBooted description].
+    *
+    * @return bool isBooted
+    */
+    public function isBooted()
+    {
+        return $this->booted;
+    }
 
   /**
    * Loads Event Listeners.
    *
    * @return void
    */
-  protected function loadEventListeners()
-  {
-    $coreListeners = [
-        \Raideer\Tweech\Listeners\IrcMessageListener::class,
-        \Raideer\Tweech\Listeners\ChatMessageListener::class,
-    ];
+    protected function loadEventListeners()
+    {
+        $coreListeners = [
+            \Raideer\Tweech\Listeners\IrcMessageListener::class,
+            \Raideer\Tweech\Listeners\ChatMessageListener::class,
+        ];
 
-      $this['client']->registerEventListener($coreListeners);
-  }
+        $this['client']->registerEventListener($coreListeners);
+    }
 
   /**
    * Saves application paths to the container.
