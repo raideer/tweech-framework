@@ -61,9 +61,9 @@ class CommandRegistry
      * Check if the given string contains a command
      * if so, return the registered command.
      *
-     * @param  string $string Received Message
+     * @param string $string Received Message
      *
-     * @return Command        Returns the command or null
+     * @return Command Returns the command or null
      */
     public function getCommandIfExists($string)
     {
