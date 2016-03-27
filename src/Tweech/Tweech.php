@@ -73,11 +73,11 @@ class Tweech extends Container
         return $this->booted;
     }
 
-   /**
-    * Loads Event Listeners.
-    *
-    * @return void
-    */
+    /**
+     * Loads Event Listeners.
+     *
+     * @return void
+     */
     protected function loadEventListeners()
     {
         $coreListeners = [

@@ -21,7 +21,7 @@ class CommandRegistry
     /**
      * Registers a command.
      *
-     * @param  CommandInterface $command
+     * @param CommandInterface $command
      *
      * @return void
      */
@@ -48,23 +48,23 @@ class CommandRegistry
     }
 
     /**
-    * Returns an array of commands.
-    *
-    * @return array
-    */
+     * Returns an array of commands.
+     *
+     * @return array
+     */
     public function getCommands()
     {
         return $this->commands;
     }
 
     /**
-    * Check if the given string contains a command
-    * if so, return the registered command.
-    *
-    * @param  string $string Received Message
-    *
-    * @return Command        Returns the command or null
-    */
+     * Check if the given string contains a command
+     * if so, return the registered command.
+     *
+     * @param  string $string Received Message
+     *
+     * @return Command        Returns the command or null
+     */
     public function getCommandIfExists($string)
     {
         if (starts_with($string, $this->id)) {
