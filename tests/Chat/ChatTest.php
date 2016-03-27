@@ -23,14 +23,6 @@ class ChatTest extends PHPUnit_Framework_TestCase
         m::close();
     }
 
-    public function testConstructor()
-    {
-        $client = m::mock('Raideer\Tweech\Client\Client');
-        $chat = new Chat($client, 'bar');
-
-        $this->assertSame('#bar', $chat->getName());
-    }
-
     public function testHelper()
     {
         $this->client->shouldReceive('command')->once()->with('PRIVMSG', '#foo :bar');
