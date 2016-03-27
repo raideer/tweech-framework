@@ -13,6 +13,7 @@ class ChatTest extends PHPUnit_Framework_TestCase
     {
         $this->client = $client = m::mock('Raideer\Tweech\Client\Client');
         $this->client->shouldReceive('getConnection')->once()->andReturn(new Connection('nickname', 'oauth:password123'));
+        $this->client->shouldReceive('listen');
         $this->chat = new Chat($client, 'foo');
     }
 
