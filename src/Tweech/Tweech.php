@@ -73,7 +73,7 @@ class Tweech extends Container
         return $this->booted;
     }
 
-  /**
+   /**
     * Loads Event Listeners.
     *
     * @return void

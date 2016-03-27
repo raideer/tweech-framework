@@ -91,7 +91,7 @@ class Client extends EventEmitter
     public function __call($name, $arguments)
     {
         if (method_exists($this->helper, $name)) {
-          call_user_func_array([$this->helper, $name], $arguments);
+            call_user_func_array([$this->helper, $name], $arguments);
         }
     }
 
