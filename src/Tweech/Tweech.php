@@ -11,8 +11,8 @@ class Tweech extends Container
     protected $bootCallbacks = [];
 
     /**
-    * Run the application.
-    */
+     * Run the application.
+     */
     public function run()
     {
         $this->registerInstance();
@@ -31,11 +31,11 @@ class Tweech extends Container
     }
 
     /**
-    * Set Tweech as booted
-    * Runs whenBooted callbacks.
-    *
-    * @return void
-    */
+     * Set Tweech as booted
+     * Runs whenBooted callbacks.
+     *
+     * @return void
+     */
     protected function boot()
     {
         if ($this->booted) {
@@ -48,12 +48,12 @@ class Tweech extends Container
     }
 
     /**
-    * Run callbacks that are waiting for Tweech to boot.
-    *
-    * @param  Closure $callback Callback function
-    *
-    * @return void
-    */
+     * Run callbacks that are waiting for Tweech to boot.
+     *
+     * @param Closure $callback Callback function
+     *
+     * @return void
+     */
     public function whenBooted(\Closure $callback)
     {
         $this->bootCallbacks[] = $callback;
@@ -64,20 +64,20 @@ class Tweech extends Container
     }
 
     /**
-    * [isBooted description].
-    *
-    * @return bool isBooted
-    */
+     * [isBooted description].
+     *
+     * @return bool isBooted
+     */
     public function isBooted()
     {
         return $this->booted;
     }
 
   /**
-   * Loads Event Listeners.
-   *
-   * @return void
-   */
+    * Loads Event Listeners.
+    *
+    * @return void
+    */
     protected function loadEventListeners()
     {
         $coreListeners = [

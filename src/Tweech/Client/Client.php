@@ -83,16 +83,16 @@ class Client extends EventEmitter
     /**
      * Magic function for implementing the functions in the helper class.
      *
-     * @param  string $name      Name of the function
-     * @param  array $arguments  Array of function arguments
+     * @param string $name      Name of the function
+     * @param array  $arguments Array of function arguments
      *
      * @return void
      */
     public function __call($name, $arguments)
     {
-      if (method_exists($this->helper, $name)) {
+        if (method_exists($this->helper, $name)) {
           call_user_func_array([$this->helper, $name], $arguments);
-      }
+        }
     }
 
     /**
@@ -102,12 +102,13 @@ class Client extends EventEmitter
      */
     public function connect()
     {
-    $socket = $this->createSocket(
-        $this->connection->getHostname(),
-        $this->connection->getPort(),
-        $this->throttle
-    );
-    $this->setSocket($socket);
+        $socket = $this->createSocket(
+            $this->connection->getHostname(),
+            $this->connection->getPort(),
+            $this->throttle
+        );
+
+        $this->setSocket($socket);
     }
 
     /**
@@ -129,7 +130,7 @@ class Client extends EventEmitter
      * Adds the callback function to the loggedInCallbacks list
      * If client is already logged in, then the function is called.
      *
-     * @param  callable $callback
+     * @param callable $callback
      *
      * @return void
      */
@@ -148,9 +149,9 @@ class Client extends EventEmitter
     }
 
     /**
-     * Creates and returns a chat instanca.
+     * Creates and returns a chat instance.
      *
-     * @param  string $name Twitch chat name
+     * @param string $name Twitch chat name
      *
      * @return Chat
      */
@@ -179,7 +180,7 @@ class Client extends EventEmitter
     /**
      * Returns Chat instance or null.
      *
-     * @param  string $name Chat name
+     * @param string $name Chat name
      *
      * @return Chat or null
      */
@@ -192,15 +193,13 @@ class Client extends EventEmitter
         if (array_key_exists($name, $this->chats)) {
             return $this->chats[$name];
         }
-
-        return;
     }
 
     /**
      * Sends a command.
      *
-     * @param  string $code  Command
-     * @param  string $value Command value
+     * @param string $code  Command
+     * @param string $value Command value
      *
      * @return void
      */
@@ -213,17 +212,17 @@ class Client extends EventEmitter
     /**
      * Sends a raw command.
      *
-     * @param  string $command Command
+     * @param string $command Command
      *
      * @return void
      */
     public function rawcommand($command)
     {
-      if (preg_match('/(.+)[\n]$/', $command)) {
-          $this->socket->send($command);
-      } else {
-          $this->socket->send($command.PHP_EOL);
-      }
+        if (preg_match('/(.+)[\n]$/', $command)) {
+            $this->socket->send($command);
+        } else {
+            $this->socket->send($command.PHP_EOL);
+        }
     }
 
     public function hasGrant($name)

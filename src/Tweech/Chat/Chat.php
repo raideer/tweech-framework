@@ -5,9 +5,9 @@ namespace Raideer\Tweech\Chat;
 use Raideer\Tweech\Client\Client;
 use Raideer\Tweech\Command\CommandInterface;
 use Raideer\Tweech\Command\CommandRegistry;
+use Raideer\Tweech\Components\IgnoreList;
 use Raideer\Tweech\Event\ChatMessageEvent;
 use Raideer\Tweech\Event\CommandMessageEvent;
-use Raideer\Tweech\Components\IgnoreList;
 
 class Chat
 {
@@ -66,7 +66,7 @@ class Chat
 
     public function countMessages()
     {
-        $this->client->listen('tick.second', function() {
+        $this->client->listen('tick.second', function () {
             $this->secondsElapsed++;
 
             if ($this->secondsElapsed >= 2) {
@@ -74,7 +74,7 @@ class Chat
             }
         });
 
-        $this->client->listen('tick.minute', function() {
+        $this->client->listen('tick.minute', function () {
             $this->secondsElapsed = 0;
             $this->messagesReceived = 0;
         });

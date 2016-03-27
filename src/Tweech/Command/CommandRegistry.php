@@ -67,13 +67,10 @@ class CommandRegistry
    */
   public function getCommandIfExists($string)
   {
-    /*
-     * Checks if the message starts with the command id
-     */
+    // Checks if the message starts with the command id
     if (starts_with($string, $this->id)) {
-    /*
-     * Cycles through the registered commands and looks for a match
-     */
+
+     // Cycles through the registered commands and looks for a match
       foreach ($this->commands as $commandName => $command) {
           if (starts_with($string, $this->id.$commandName)) {
               return $command;
