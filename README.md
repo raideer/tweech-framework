@@ -4,3 +4,5 @@
 >NOTE: This is a repository that contains the core code of this framework. If you want to build an application using this framework, use [`raideer/tweech`](https://github.com/raideer/tweech) instead
 
 # TWEECH.PHP
+### UNDER DEVELOPMENT
+While basic features, such as mult-chat and command handling, emote parsing and subscription alerting are working, there are various things/problems that still need to be worked on.
