@@ -17,7 +17,7 @@ class NewSubscriptionEvent extends Event
         $this->response = $response;
         $this->client = $client;
 
-        $subRegex = '/^(?P<user>[^ ]+) just subscribed/';
+        $subRegex = '/^(?P<user>[^ ]+) just subscribed!/';
         $resubRegex = '/^(?P<user>[^ ]+) subscribed for (?P<time>[0-9]+)/';
 
         if (!preg_match($subRegex, $response['message'], $match)) {
@@ -36,7 +36,7 @@ class NewSubscriptionEvent extends Event
         return $this->resub;
     }
 
-    public function getMonthsInARow()
+    public function getMonths()
     {
         return $this->row;
     }
