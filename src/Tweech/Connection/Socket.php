@@ -59,7 +59,7 @@ class Socket
 
         if ($this->throttle) {
             // Limiting to 20 messages per 30 seconds
-      // https://github.com/justintv/Twitch-API/blob/master/IRC.md#command--message-limit
+            // https://github.com/justintv/Twitch-API/blob/master/IRC.md#command--message-limit
             $this->throttle->throttle('message.limit', 20, 30000);
             $this->throttle->throttle('message', 1, 1000);
         }
