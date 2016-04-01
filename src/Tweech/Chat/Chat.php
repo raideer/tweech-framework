@@ -5,7 +5,6 @@ namespace Raideer\Tweech\Chat;
 use Raideer\Tweech\Client\Client;
 use Raideer\Tweech\Command\CommandInterface;
 use Raideer\Tweech\Command\CommandRegistry;
-use Raideer\Tweech\Components\IgnoreList;
 use Raideer\Tweech\Event\ChatMessageEvent;
 use Raideer\Tweech\Event\CommandMessageEvent;
 
