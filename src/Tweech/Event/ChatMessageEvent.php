@@ -2,9 +2,9 @@
 
 namespace Raideer\Tweech\Event;
 
-use Raideer\Tweech\Client\Client;
 use Raideer\Tweech\Chat\Emotes;
 use Raideer\Tweech\Chat\Sender;
+use Raideer\Tweech\Client\Client;
 
 class ChatMessageEvent extends Event
 {
