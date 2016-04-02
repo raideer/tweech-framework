@@ -4,6 +4,7 @@
     "keywords": ["framework", "tweech", "php"],
     "license": "MIT",
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "authors": [
         {
             "name": "Raideer",

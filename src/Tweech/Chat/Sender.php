@@ -6,8 +6,8 @@ class Sender
 {
     protected $name;
     protected $color;
-    protected $subscriber = false;
-    protected $turbo = false;
+    protected $subscriber;
+    protected $turbo;
     protected $userId;
 
     public function __construct($tags)
@@ -36,11 +36,11 @@ class Sender
 
     public function isSubscribed()
     {
-        return $this->subscriber;
+        return $this->subscriber || false;
     }
 
     public function isTurbo()
     {
-        return $this->turbo;
+        return $this->turbo || false;
     }
 }
