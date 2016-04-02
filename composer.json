@@ -3,6 +3,7 @@
     "description": "Twitch.tv bot framework",
     "keywords": ["framework", "tweech", "php"],
     "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Raideer",
